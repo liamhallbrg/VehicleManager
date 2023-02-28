@@ -24,7 +24,7 @@ namespace VehicleManager.Controllers
         {
               return await customerRepo.GetAllAsync() != null ? 
                           View(await customerRepo.GetAllAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Customer'  is null.");
+                          Problem("Entity set Customer is null.");
         }
 
         // GET: Customers/Details/5
