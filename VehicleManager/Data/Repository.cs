@@ -20,9 +20,8 @@ namespace VehicleManager.Data
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(T entity)
         {
-            var entity = await context.Set<T>().FindAsync(id);
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
             context.Set<T>().Remove(entity);

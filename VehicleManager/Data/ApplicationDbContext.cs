@@ -11,5 +11,7 @@ namespace VehicleManager.Data
         }
         public DbSet<VehicleManager.Models.Car> Cars { get; set; } = default!;
         public DbSet<VehicleManager.Models.VehicleCategory> VehicleCategories { get; set; } = default!;
+        public DbSet<VehicleManager.Models.Rental> Rentals { get; set; } = default!;
+
     }
 }
