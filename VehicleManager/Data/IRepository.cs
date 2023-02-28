@@ -9,6 +9,6 @@ namespace VehicleManager.Data
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter);
         Task<T?> GetByIdAsync(int? id);
         Task UpdateAsync(T entity);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(T entity);
     }
 }
