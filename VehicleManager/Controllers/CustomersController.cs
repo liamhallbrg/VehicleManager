@@ -10,86 +10,85 @@ using VehicleManager.Models;
 
 namespace VehicleManager.Controllers
 {
-    public class VehicleCategoriesController : Controller
+    public class CustomersController : Controller
     {
-        private readonly IRepository<VehicleCategory> categoryRepo;
+        private readonly IRepository<Customer> customerRepo;
 
-        public VehicleCategoriesController(IRepository<VehicleCategory> categoryRepo)
+        public CustomersController(IRepository<Customer> customerRepo)
         {
-            this.categoryRepo = categoryRepo;
+            this.customerRepo = customerRepo;
         }
 
-        // GET: VehicleCategories
+        // GET: Customers
         public async Task<IActionResult> Index()
         {
-              return await categoryRepo.GetAllAsync() != null ? 
-                          View(await categoryRepo.GetAllAsync()) :
-                          Problem("Vehicle Categories is null.");
+              return await customerRepo.GetAllAsync() != null ? 
+                          View(await customerRepo.GetAllAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.Customer'  is null.");
         }
 
-        // GET: VehicleCategories/Details/5
+        // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || await categoryRepo.GetAllAsync() == null)
+            if (id == null || await customerRepo.GetAllAsync() == null)
             {
                 return NotFound();
             }
 
-            var vehicleCategory = await categoryRepo.GetByIdAsync(id);
-
-            if (vehicleCategory == null)
+            var customer = await customerRepo.GetByIdAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return View(vehicleCategory);
+            return View(customer);
         }
 
-        // GET: VehicleCategories/Create
+        // GET: Customers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: VehicleCategories/Create
+        // POST: Customers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VehicleCategoryId,Name,Description,PricePerDay")] VehicleCategory vehicleCategory)
+        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,Email,Address,City,DriverLicenceNr")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                await categoryRepo.CreateAsync(vehicleCategory);
+                await customerRepo.CreateAsync(customer);
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicleCategory);
+            return View(customer);
         }
 
-        // GET: VehicleCategories/Edit/5
+        // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || await categoryRepo.GetAllAsync() == null)
+            if (id == null || await customerRepo.GetAllAsync() == null)
             {
                 return NotFound();
             }
 
-            var vehicleCategory = await categoryRepo.GetByIdAsync(id);
-            if (vehicleCategory == null)
+            var customer = await customerRepo.GetByIdAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
-            return View(vehicleCategory);
+            return View(customer);
         }
 
-        // POST: VehicleCategories/Edit/5
+        // POST: Customers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleCategoryId,Name,Description,PricePerDay")] VehicleCategory vehicleCategory)
+        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,Email,Address,City,DriverLicenceNr")] Customer customer)
         {
-            if (id != vehicleCategory.VehicleCategoryId)
+            if (id != customer.CustomerId)
             {
                 return NotFound();
             }
@@ -98,11 +97,11 @@ namespace VehicleManager.Controllers
             {
                 try
                 {
-                    await categoryRepo.UpdateAsync(vehicleCategory);
+                    await customerRepo.UpdateAsync(customer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VehicleCategoryExists(vehicleCategory.VehicleCategoryId))
+                    if (!CustomerExists(customer.CustomerId))
                     {
                         return NotFound();
                     }
@@ -113,47 +112,46 @@ namespace VehicleManager.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicleCategory);
+            return View(customer);
         }
 
-        // GET: VehicleCategories/Delete/5
+        // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || await categoryRepo.GetAllAsync() == null)
+            if (id == null || await customerRepo.GetAllAsync() == null)
             {
                 return NotFound();
             }
 
-            var vehicleCategory = await categoryRepo.GetByIdAsync(id);
-            if (vehicleCategory == null)
+            var customer = await customerRepo.GetByIdAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return View(vehicleCategory);
+            return View(customer);
         }
 
-        // POST: VehicleCategories/Delete/5
+        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (await categoryRepo.GetAllAsync() == null)
+            if (await customerRepo.GetAllAsync() == null)
             {
-                return Problem("Vehicle Categories is null.");
+                return Problem("Entity set 'ApplicationDbContext.Customer'  is null.");
             }
-            var vehicleCategory = await categoryRepo.GetByIdAsync(id);
-            if (vehicleCategory != null)
+            var customer = await customerRepo.GetByIdAsync(id);
+            if (customer != null)
             {
-                await categoryRepo.DeleteAsync(vehicleCategory);
+                await customerRepo.DeleteAsync(customer);
             }
-
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VehicleCategoryExists(int id)
+        private bool CustomerExists(int id)
         {
-            return categoryRepo.GetByIdAsync(id) is not null;
+            return customerRepo.GetByIdAsync(id) is not null;
         }
     }
 }

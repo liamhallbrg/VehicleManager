@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using VehicleManager.Models;
 
 namespace VehicleManager.Data
 {
@@ -12,6 +13,7 @@ namespace VehicleManager.Data
         public DbSet<VehicleManager.Models.Car> Cars { get; set; } = default!;
         public DbSet<VehicleManager.Models.VehicleCategory> VehicleCategories { get; set; } = default!;
         public DbSet<VehicleManager.Models.Rental> Rentals { get; set; } = default!;
+        public DbSet<VehicleManager.Models.Customer> Customer { get; set; } = default!;
 
     }
 }
