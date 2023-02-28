@@ -10,86 +10,87 @@ using VehicleManager.Models;
 
 namespace VehicleManager.Controllers
 {
-    public class VehicleCategoriesController : Controller
+    public class CarsController : Controller
     {
-        private readonly IRepository<VehicleCategory> categoryRepo;
+        private readonly IRepository<Car> carRep;
 
-        public VehicleCategoriesController(IRepository<VehicleCategory> categoryRepo)
+        public CarsController(IRepository<Car> carRep)
         {
-            this.categoryRepo = categoryRepo;
+            this.carRep = carRep;
         }
 
-        // GET: VehicleCategories
+        //GET: Cars
         public async Task<IActionResult> Index()
         {
-              return await categoryRepo.GetAllAsync() != null ? 
-                          View(await categoryRepo.GetAllAsync()) :
-                          Problem("Vehicle Categories is null.");
+            return carRep != null ?
+                          View(await carRep.GetAllAsync()) :
+                          Problem("Entity set 'carRep'  is null.");
         }
 
-        // GET: VehicleCategories/Details/5
+        // GET: Cars/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || await categoryRepo.GetAllAsync() == null)
+            if (id == null || carRep == null)
             {
                 return NotFound();
             }
 
-            var vehicleCategory = await categoryRepo.GetByIdAsync(id);
+            var car = await carRep.GetByIdAsync(id);
 
-            if (vehicleCategory == null)
+            if (car == null)
             {
                 return NotFound();
             }
 
-            return View(vehicleCategory);
+            return View(car);
         }
 
-        // GET: VehicleCategories/Create
+        // GET: Cars/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: VehicleCategories/Create
+        // POST: Cars/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VehicleCategoryId,Name,Description,PricePerDay")] VehicleCategory vehicleCategory)
+        public async Task<IActionResult> Create([Bind("CarId,VehicleCategoryId,Brand,Description,Platenumber,ImgUrl")] Car car)
         {
             if (ModelState.IsValid)
             {
-                await categoryRepo.CreateAsync(vehicleCategory);
+                await carRep.CreateAsync(car);
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicleCategory);
+            return View(car);
         }
 
-        // GET: VehicleCategories/Edit/5
+        // GET: Cars/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || await categoryRepo.GetAllAsync() == null)
+            if (id == null || carRep == null)
             {
                 return NotFound();
             }
 
-            var vehicleCategory = await categoryRepo.GetByIdAsync(id);
-            if (vehicleCategory == null)
+            var car = await carRep.GetByIdAsync(id);
+
+            if (car == null)
             {
                 return NotFound();
             }
-            return View(vehicleCategory);
+            return View(car);
         }
 
-        // POST: VehicleCategories/Edit/5
+        // POST: Cars/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleCategoryId,Name,Description,PricePerDay")] VehicleCategory vehicleCategory)
+        public async Task<IActionResult> Edit(int id, [Bind("CarId,VehicleCategoryId,Brand,Description,Platenumber,ImgUrl")] Car car)
         {
-            if (id != vehicleCategory.VehicleCategoryId)
+            if (id != car.CarId)
             {
                 return NotFound();
             }
@@ -98,11 +99,11 @@ namespace VehicleManager.Controllers
             {
                 try
                 {
-                    await categoryRepo.UpdateAsync(vehicleCategory);
+                    await carRep.UpdateAsync(car);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VehicleCategoryExists(vehicleCategory.VehicleCategoryId))
+                    if (!CarExists(car.CarId))
                     {
                         return NotFound();
                     }
@@ -113,47 +114,47 @@ namespace VehicleManager.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicleCategory);
+            return View(car);
         }
 
-        // GET: VehicleCategories/Delete/5
+        // GET: Cars/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || await categoryRepo.GetAllAsync() == null)
+            if (id == null || carRep == null)
             {
                 return NotFound();
             }
 
-            var vehicleCategory = await categoryRepo.GetByIdAsync(id);
-            if (vehicleCategory == null)
+            var car = await carRep.GetByIdAsync(id);
+            if (car == null)
             {
                 return NotFound();
             }
 
-            return View(vehicleCategory);
+            return View(car);
         }
 
-        // POST: VehicleCategories/Delete/5
+        // POST: Cars/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (await categoryRepo.GetAllAsync() == null)
+            if (carRep == null)
             {
-                return Problem("Vehicle Categories is null.");
+                return Problem("Entity set 'ApplicationDbContext.Cars'  is null.");
             }
-            var vehicleCategory = await categoryRepo.GetByIdAsync(id);
-            if (vehicleCategory != null)
+            var car = await carRep.GetByIdAsync(id);
+            if (car != null)
             {
-                await categoryRepo.DeleteAsync(vehicleCategory);
+                await carRep.DeleteAsync(car);
             }
 
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VehicleCategoryExists(int id)
+        private bool CarExists(int id)
         {
-            return categoryRepo.GetByIdAsync(id) is not null;
+            return carRep.GetByIdAsync(id) != null;
         }
     }
 }
