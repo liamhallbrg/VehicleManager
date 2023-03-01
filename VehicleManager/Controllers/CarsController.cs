@@ -50,8 +50,8 @@ namespace VehicleManager.Controllers
         // GET: Cars/Create
         public async Task<IActionResult> Create()
         {
-                ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
-                return View();
+            ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
+            return View();
         }
 
         // POST: Cars/Create
@@ -59,7 +59,7 @@ namespace VehicleManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CarId,VehicleCategoryId,Brand,Description,Platenumber,ImgUrl")] Car car)
+        public async Task<IActionResult> Create([Bind("CarId,VehicleCategoryId,Brand,Description,PlateNumber,ImgUrl")] Car car)
         {
             if (ModelState.IsValid)
             {
