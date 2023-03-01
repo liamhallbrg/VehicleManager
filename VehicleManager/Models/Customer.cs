@@ -20,7 +20,9 @@ namespace VehicleManager.Models
 		public string City { get; set; } = string.Empty;
 		[Required]
 		[StringLength(9)]
-		public int DriverLicenceNr { get; set; }
+		//Range[100000, 999999]
+		//[RegularExpression(@"\d{9}")]
+        public int DriverLicenceNr { get; set; }
 
     }
 }
