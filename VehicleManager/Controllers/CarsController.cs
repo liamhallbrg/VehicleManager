@@ -13,10 +13,12 @@ namespace VehicleManager.Controllers
     public class CarsController : Controller
     {
         private readonly IRepository<Car> carRep;
+        private readonly IRepository<VehicleCategory> categoryRep;
 
-        public CarsController(IRepository<Car> carRep)
+        public CarsController(IRepository<Car> carRep, IRepository<VehicleCategory> categoryRep)
         {
             this.carRep = carRep;
+            this.categoryRep = categoryRep;
         }
 
         //GET: Cars
@@ -46,9 +48,10 @@ namespace VehicleManager.Controllers
         }
 
         // GET: Cars/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+                ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
+                return View();
         }
 
         // POST: Cars/Create
