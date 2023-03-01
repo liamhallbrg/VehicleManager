@@ -1,36 +1,57 @@
-﻿@model VehicleManager.Models.VehicleCategory
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model VehicleManager.Models.VehicleCategory
 
 @{
     ViewData["Title"] = "Details";
 }
+<div class="align-items-center">
+    <h2>@Model.Name</h2>
+    <div>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PricePerDay)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PricePerDay) kr/day
+            </dd>
+        </dl>
+    </div>
+</div>
 
-<h1>Details</h1>
+<h3>All cars in category</h3>
 
-<div>
-    <h4>VehicleCategory</h4>
+@foreach (var item in Model.Cars)
+{
+    <a class="link-secondary" asp-controller="Cars" asp-action="Details" asp-route-id="@item.CarId">
+        <div class="row">
+            <div class="col-auto">
+                <img src="https://picsum.photos/seed/@item.Brand/200" alt="" width="125" height="125">
+            </div>
+
+            <div class="col-lg-7 align-content-lg-center">
+                <h3>@Html.DisplayFor(modelItem => item.Brand)</h3>
+                <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
+            </div>
+            <div class="col-2">
+                <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
+            </div>
+        </div>
+    </a>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PricePerDay)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PricePerDay)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.VehicleCategoryId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+}
+
+
+@if (HttpContextAccessor?.HttpContext?.Request.Cookies["Role"] == "Admin")
+{
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.VehicleCategoryId">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+
