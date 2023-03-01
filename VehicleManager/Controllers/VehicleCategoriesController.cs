@@ -13,10 +13,12 @@ namespace VehicleManager.Controllers
     public class VehicleCategoriesController : Controller
     {
         private readonly IRepository<VehicleCategory> categoryRepo;
+        private readonly IRepository<Car> carRepo;
 
-        public VehicleCategoriesController(IRepository<VehicleCategory> categoryRepo)
+        public VehicleCategoriesController(IRepository<VehicleCategory> categoryRepo, IRepository<Car> carRepo)
         {
             this.categoryRepo = categoryRepo;
+            this.carRepo = carRepo;
         }
 
         // GET: VehicleCategories
@@ -34,7 +36,7 @@ namespace VehicleManager.Controllers
             {
                 return NotFound();
             }
-
+            var cars = await carRepo.GetAllAsync(c => c.VehicleCategoryId == id);
             var vehicleCategory = await categoryRepo.GetByIdAsync(id);
 
             if (vehicleCategory == null)
@@ -42,6 +44,7 @@ namespace VehicleManager.Controllers
                 return NotFound();
             }
 
+            vehicleCategory.Cars = cars;
             return View(vehicleCategory);
         }
 
