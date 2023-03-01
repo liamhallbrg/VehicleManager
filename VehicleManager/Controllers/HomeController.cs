@@ -28,5 +28,25 @@ namespace VehicleManager.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult SetUser()
+        {
+            if (Request.Cookies.ContainsKey("Role"))
+            {
+                Response.Cookies.Delete("Role");
+            }
+
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        public IActionResult SetAdmin()
+        {
+            if (!Request.Cookies.ContainsKey("Role"))
+            {
+                Response.Cookies.Append("Role", "Admin");
+            }
+
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
     }
 }
