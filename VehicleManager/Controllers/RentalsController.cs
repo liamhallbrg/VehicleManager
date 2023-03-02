@@ -1,31 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VehicleManager.Data;
 using VehicleManager.Models;
+using VehicleManager.ViewModels;
 
 namespace VehicleManager.Controllers
 {
     public class RentalsController : Controller
     {
-		private readonly IRepository<Rental> rentalRepo;
+        private readonly IRepository<Rental> rentalRepo;
+        private readonly IRepository<Customer> customerRepo;
+        private readonly IRepository<Car> carRepo;
 
-		public RentalsController(IRepository<Rental> rentalRepo)
+        public RentalsController(IRepository<Rental> rentalRepo, IRepository<Customer> customerRepo, IRepository<Car> carRepo)
         {
-           
-			this.rentalRepo = rentalRepo;
-		}
+
+            this.rentalRepo = rentalRepo;
+            this.customerRepo = customerRepo;
+            this.carRepo = carRepo;
+        }
 
         // GET: Rentals
+
+
+
         public async Task<IActionResult> Index()
         {
-              return await rentalRepo.GetAllAsync() != null ? 
-                          View(await rentalRepo.GetAllAsync()) :
-                          Problem("Rental is null.");
+            var rentals = await rentalRepo.GetAllAsync();
+            var rentalViewModels = new List<RentalViewModel>();
+
+            foreach (var rental in rentals)
+            {
+                
+                var car = await carRepo.GetByIdAsync(rental.CarId);
+                var customer = await customerRepo.GetByIdAsync(rental.CustomerId);
+
+                var rentalViewModel = new RentalViewModel
+                {
+                    Id = rental.RentalId,
+                    PickUpDate = rental.PickUpDate,
+                    PlateNumber = car.PlateNumber,
+                    FullName = customer.FullName
+                };
+                rentalViewModels.Add(rentalViewModel);
+            }
+
+
+            ViewBag.Rentals = await rentalRepo.GetAllAsync();
+
+
+            return await rentalRepo.GetAllAsync() != null ?
+                        View(rentalViewModels) :
+                        Problem("Rental is null.");
         }
 
         // GET: Rentals/Details/5
@@ -37,7 +63,7 @@ namespace VehicleManager.Controllers
             }
 
             var rental = await rentalRepo.GetByIdAsync(id);
-           
+
             if (rental == null)
             {
                 return NotFound();
@@ -149,13 +175,13 @@ namespace VehicleManager.Controllers
             {
                 await rentalRepo.DeleteAsync(rental);
             }
-            
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool RentalExists(int id)
         {
-          return rentalRepo.GetByIdAsync(id) is not null;
+            return rentalRepo.GetByIdAsync(id) is not null;
         }
     }
 }
