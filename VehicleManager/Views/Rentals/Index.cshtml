@@ -1,65 +1,57 @@
-﻿@model IEnumerable<VehicleManager.Models.Rental>
+﻿@model List<VehicleManager.ViewModels.RentalViewModel>
 
-@{
-    ViewData["Title"] = "Index";
-}
+<h2>For PickUp</h2>
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<!-- Display the list of Rentals for PickUp -->
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CarId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PickUpDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReturnDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookingMade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalPrice)
-            </th>
-            <th></th>
+            <th>Pick Up Date</th>
+            <th>Plate Number</th>
+            <th>Full Name</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var rental in Model)
+        {
+            <tr>
+                <td>@rental.PickUpDate</td>
+                <td>@rental.PlateNumber</td>
+                <td>@rental.FullName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>All Rentals</h2>
+
+<!-- Display the list of Rentals -->
+<table class="table">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CarId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PickUpDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReturnDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookingMade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalPrice)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.RentalId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RentalId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RentalId">Delete</a>
-            </td>
+            <th>Rental ID</th>
+            <th>Car ID</th>
+            <th>Customer ID</th>
+            <th>Pick Up Date</th>
+            <th>Return Date</th>
+            <th>Booking Made</th>
+            <th>Total Price</th>
         </tr>
-}
+    </thead>
+    <tbody>
+        @foreach (var rental in ViewBag.Rentals)
+        {
+            <tr>
+                <td>@rental.RentalId</td>
+                <td>@rental.CarId</td>
+                <td>@rental.CustomerId</td>
+                <td>@rental.PickUpDate</td>
+                <td>@rental.ReturnDate</td>
+                <td>@rental.BookingMade</td>
+                <td>@rental.TotalPrice</td>
+            </tr>
+        }
     </tbody>
 </table>
