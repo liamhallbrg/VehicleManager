@@ -24,28 +24,6 @@
     </div>
 </div>
 
-<h3>All cars in category</h3>
-
-@foreach (var item in Model.Cars)
-{
-    <a class="link-secondary" asp-controller="Cars" asp-action="Details" asp-route-id="@item.CarId">
-        <div class="row">
-            <div class="col-auto">
-                <img src="https://picsum.photos/seed/@item.Brand/200" alt="" width="125" height="125">
-            </div>
-
-            <div class="col-lg-7 align-content-lg-center">
-                <h3>@Html.DisplayFor(modelItem => item.Brand)</h3>
-                <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
-            </div>
-            <div class="col-2">
-                <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
-            </div>
-        </div>
-    </a>
-    <hr />
-}
-
 
 @if (HttpContextAccessor?.HttpContext?.Request.Cookies["Role"] == "Admin")
 {
