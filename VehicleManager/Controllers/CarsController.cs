@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VehicleManager.Data;
 using VehicleManager.Models;
+using VehicleManager.ViewModels;
 
 namespace VehicleManager.Controllers
 {
@@ -25,8 +26,8 @@ namespace VehicleManager.Controllers
         public async Task<IActionResult> Index()
         {
             return carRep != null ?
-                          View(await carRep.GetAllAsync()) :
-                          Problem("Entity set 'carRep'  is null.");
+                   View(await carRep.GetAllAsync()) :
+                   Problem("Entity set 'carRep'  is null.");
         }
 
         // GET: Cars/Details/5
@@ -50,8 +51,8 @@ namespace VehicleManager.Controllers
         // GET: Cars/Create
         public async Task<IActionResult> Create()
         {
-                ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
-                return View();
+            ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
+            return View();
         }
 
         // POST: Cars/Create
@@ -59,7 +60,7 @@ namespace VehicleManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CarId,VehicleCategoryId,Brand,Description,Platenumber,ImgUrl")] Car car)
+        public async Task<IActionResult> Create([Bind("CarId,VehicleCategoryId,Brand,Description,PlateNumber,ImgUrl")] Car car)
         {
             if (ModelState.IsValid)
             {
@@ -83,6 +84,9 @@ namespace VehicleManager.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
+
             return View(car);
         }
 
@@ -91,7 +95,7 @@ namespace VehicleManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CarId,VehicleCategoryId,Brand,Description,Platenumber,ImgUrl")] Car car)
+        public async Task<IActionResult> Edit(int id, [Bind("CarId,VehicleCategoryId,Brand,Description,PlateNumber,ImgUrl")] Car car)
         {
             if (id != car.CarId)
             {

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model VehicleManager.ViewModels.IndexVM
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -22,12 +23,12 @@
             <div class="col-md-12	featured-top">
                 <div class="row no-gutters">
                     <div class="col-md-4 d-flex align-items-center">
-                        <form action="#" class="request-form ftco-animate bg-primary">
+                        <form asp-action="Create" class="request-form ftco-animate bg-primary">
                             <h2>Make your trip</h2>
                             <div class="form-group">
                                 <label for="" class="label">Vehicle Category</label>
-                                <select class="form-control">
-                                    <option>Tesla Cybertruck 8x8</option>
+                                <select class="form-control" style="background-color: #1089ff !important;" asp-items="@(new SelectList(Model.VehicleCategories, nameof(VehicleCategory.VehicleCategoryId), nameof(VehicleCategory.Name)))">
+                                    <option>Select a category</option>
                                 </select>
                             </div>
                             <div class="d-flex">
@@ -77,6 +78,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <section class="ftco-section ftco-no-pt bg-light">
@@ -84,7 +88,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12 heading-section text-center ftco-animate mb-5">
                 <span class="subheading">What we offer</span>
-                <h2 class="mb-2">Feeatured Vehicles</h2>
+                <h2 class="mb-2">Vehicle Categories</h2>
             </div>
         </div>
         <div class="row">
@@ -100,7 +104,7 @@
                                     <span class="cat">Cheverolet</span>
                                     <p class="price ml-auto">$500 <span>/day</span></p>
                                 </div>
-                                <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a href="#" class="btn btn-secondary py-2 ml-1">Details</a></p>
+                                <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-secondary py-2 ml-25-p">Details</a></p>
                             </div>
                         </div>
                     </div>
@@ -114,7 +118,7 @@
                                     <span class="cat">Cheverolet</span>
                                     <p class="price ml-auto">$500 <span>/day</span></p>
                                 </div>
-                                <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a href="#" class="btn btn-secondary py-2 ml-1">Details</a></p>
+                                <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-secondary py-2 ml-25-p">Details</a></p>
                             </div>
                         </div>
                     </div>
@@ -128,7 +132,7 @@
                                     <span class="cat">Cheverolet</span>
                                     <p class="price ml-auto">$500 <span>/day</span></p>
                                 </div>
-                                <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a href="#" class="btn btn-secondary py-2 ml-1">Details</a></p>
+                                <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-secondary py-2 ml-25-p">Details</a></p>
                             </div>
                         </div>
                     </div>
@@ -142,7 +146,7 @@
                                     <span class="cat">Cheverolet</span>
                                     <p class="price ml-auto">$500 <span>/day</span></p>
                                 </div>
-                                <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a href="#" class="btn btn-secondary py-2 ml-1">Details</a></p>
+                                <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-secondary py-2 ml-25-p">Details</a></p>
                             </div>
                         </div>
                     </div>

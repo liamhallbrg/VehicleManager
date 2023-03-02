@@ -4,54 +4,52 @@
 @{
     ViewData["Title"] = "Details";
 }
-<div class="align-items-center">
-    <h2>@Model.Name</h2>
-    <div>
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.PricePerDay)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.PricePerDay) kr/day
-            </dd>
-        </dl>
-    </div>
-</div>
 
-<h3>All cars in category</h3>
 
-@foreach (var item in Model.Cars)
-{
-    <a class="link-secondary" asp-controller="Cars" asp-action="Details" asp-route-id="@item.CarId">
-        <div class="row">
-            <div class="col-auto">
-                <img src="https://picsum.photos/seed/@item.Brand/200" alt="" width="125" height="125">
-            </div>
 
-            <div class="col-lg-7 align-content-lg-center">
-                <h3>@Html.DisplayFor(modelItem => item.Brand)</h3>
-                <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
-            </div>
-            <div class="col-2">
-                <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url(@Model.Cars[0].ImgUrl);" data-stellar-background-ratio="0.5"> 
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Categories <i class="ion-ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">@Model.Name</h1>
             </div>
         </div>
-    </a>
-    <hr />
-}
-
-
-@if (HttpContextAccessor?.HttpContext?.Request.Cookies["Role"] == "Admin")
-{
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model?.VehicleCategoryId">Edit</a> |
-        <a asp-action="Index">Back to List</a>
     </div>
-}
+</section>
 
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <div class="align-items-center">
+                    <div>
+                        <dl class="row">
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.Description)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.Description)
+                            </dd>
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.PricePerDay)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.PricePerDay) kr/day
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                @if (HttpContextAccessor?.HttpContext?.Request.Cookies["Role"] == "Admin")
+                {
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model?.VehicleCategoryId">Edit</a> |
+                        <a asp-action="Index">Back to List</a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

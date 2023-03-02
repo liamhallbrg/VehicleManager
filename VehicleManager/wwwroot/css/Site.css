@@ -1,0 +1,12 @@
+﻿select option {
+    line-height: 20px;
+}
+.ml-25-p{
+    margin-left: 25%;
+}
+
+.icon {
+    display: inline-block;
+    font-size: 20px;
+    vertical-align: middle;
+}
