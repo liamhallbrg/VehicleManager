@@ -82,7 +82,13 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Create
         public IActionResult Create(int carId, DateTime pickupDate, DateTime dropoffDate)
         {
-            return View();
+            Rental rental = new()
+            {
+                CarId = carId,
+                PickUpDate = pickupDate,
+                ReturnDate = dropoffDate
+            };
+            return View(rental);
         }
 
         // POST: Rentals/Create
@@ -94,6 +100,9 @@ namespace VehicleManager.Controllers
         {
             if (ModelState.IsValid)
             {
+                Customer customer = new();
+                await customerRepo.CreateAsync(customer);
+                rental.CustomerId = customer.CustomerId;
                 await rentalRepo.CreateAsync(rental);
                 return RedirectToAction(nameof(Index));
             }
