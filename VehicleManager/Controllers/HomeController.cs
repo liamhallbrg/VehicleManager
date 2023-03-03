@@ -25,6 +25,10 @@ namespace VehicleManager.Controllers
         {
             IndexVM indexVM = new();
             indexVM.VehicleCategories = await categoryRepository.GetAllAsync();
+            foreach (var category in indexVM.VehicleCategories)
+            {
+                category.Cars = await carRepository.GetAllAsync(s => s.VehicleCategoryId == category.VehicleCategoryId);
+            }
             return View(indexVM);
         }
 
