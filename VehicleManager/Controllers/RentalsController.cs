@@ -80,7 +80,7 @@ namespace VehicleManager.Controllers
         }
 
         // GET: Rentals/Create
-        public IActionResult Create()
+        public IActionResult Create(int carId, DateTime pickupDate, DateTime dropoffDate)
         {
             return View();
         }

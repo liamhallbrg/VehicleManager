@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using VehicleManager.Data;
 using VehicleManager.Models;
 using VehicleManager.ViewModels;
@@ -30,6 +31,18 @@ namespace VehicleManager.Controllers
                 category.Cars = await carRepository.GetAllAsync(s => s.VehicleCategoryId == category.VehicleCategoryId);
             }
             return View(indexVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(int vehicleCategoryId, DateTime pickupDate, DateTime dropoffDate)
+        {
+            Index2VM index2VM = new();
+            Expression<Func<Car, bool>> filter = s => s.VehicleCategoryId == vehicleCategoryId;
+            index2VM.Cars = await carRepository.GetAllAsync(filter);
+            index2VM.PickupDate = pickupDate;
+            index2VM.DropoffDate = dropoffDate;
+            return View("Index2", index2VM);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
