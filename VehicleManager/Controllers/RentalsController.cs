@@ -29,9 +29,15 @@ namespace VehicleManager.Controllers
             var rentals = await rentalRepo.GetAllAsync();
             var rentalViewModels = new List<RentalViewModel>();
 
+            var startDate = DateTime.Today;
+            var endDate = startDate.AddDays(7);
+
             foreach (var rental in rentals)
             {
-                
+
+                if (rental.PickUpDate >= startDate && rental.PickUpDate <=endDate)
+                {
+
                 var car = await carRepo.GetByIdAsync(rental.CarId);
                 var customer = await customerRepo.GetByIdAsync(rental.CustomerId);
 
@@ -43,6 +49,7 @@ namespace VehicleManager.Controllers
                     FullName = customer.FullName
                 };
                 rentalViewModels.Add(rentalViewModel);
+                }
             }
 
 
