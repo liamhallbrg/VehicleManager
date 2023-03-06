@@ -28,46 +28,38 @@
                             <div class="text">
                                 <h2 class="mb-0"><a href="car-single.html">@Model.Name</a></h2>
                                 <div class="d-flex mb-3">
-                                    <span class="cat">Cheverolet</span>
+                                    <span class="cat">@Model.Name</span>
                                     <p class="price ml-auto">@Model.PricePerDay<span>/day</span></p>
                                 </div>
-                                <p class="d-flex mb-0 d-block"><a href="/Book/@Model.CarId/@Model.PickUpDate/@Model.ReturnDate"</a> <a href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a></p>
+                                <p class="d-flex mb-0 d-block"><a href="/Book/@Model.CarId/@Model.PickUpDate/@Model.ReturnDate"/> <a href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a></p>
                             </div>
                         </div>
                     </div>
                     <form asp-action="Create">
-                        <div style="display:none">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="CarId" class="control-label"></label>
-                                <input asp-for="CarId" class="form-control" />
-                                <span asp-validation-for="CarId" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="CustomerId" class="control-label"></label>
-                                <input asp-for="CustomerId" class="form-control" />
-                                <span asp-validation-for="CustomerId" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="PickUpDate" class="control-label"></label>
-                                <input asp-for="PickUpDate" class="form-control" />
-                                <span asp-validation-for="PickUpDate" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ReturnDate" class="control-label"></label>
-                                <input asp-for="ReturnDate" class="form-control" />
-                                <span asp-validation-for="ReturnDate" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="BookingMade" class="control-label"></label>
-                                <input asp-for="BookingMade" class="form-control" />
-                                <span asp-validation-for="BookingMade" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="TotalPrice" class="control-label"></label>
-                                <input asp-for="TotalPrice" class="form-control" />
-                                <span asp-validation-for="TotalPrice" class="text-danger"></span>
-                            </div>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="CarId" class="form-control" />
+                            <span asp-validation-for="CarId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="CustomerId" class="form-control" />
+                            <span asp-validation-for="CustomerId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="PickUpDate" class="form-control" />
+                            <span asp-validation-for="PickUpDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="ReturnDate" class="form-control" />
+                            <span asp-validation-for="ReturnDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="BookingMade" class="form-control" />
+                            <span asp-validation-for="BookingMade" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="TotalPrice" class="form-control" />
+                            <span asp-validation-for="TotalPrice" class="text-danger"></span>
                         </div>
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
@@ -115,8 +107,6 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-
-
 
 @*@model VehicleManager.Models.Rental
 

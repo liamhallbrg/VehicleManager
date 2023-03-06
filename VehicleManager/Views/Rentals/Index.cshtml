@@ -64,7 +64,6 @@
                             @foreach (var rental in Model[0].AllRentals)
                             {
                                 <tr>
-                                    <td>@Html.DisplayFor(r => rental.PickUpDate)</td>
                                     <td>@Html.DisplayFor(r => rental.RentalId)</td>
                                     <td>@Html.DisplayFor(r => rental.CarId)</td>
                                     <td>@Html.DisplayFor(r => rental.CustomerId)</td>
