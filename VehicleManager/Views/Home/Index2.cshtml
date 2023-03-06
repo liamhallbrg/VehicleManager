@@ -22,7 +22,24 @@
         <div class="row">
             @foreach (var car in Model.Cars)
             {
-            <div class="col-md-4">
+
+                <div class="item">
+                    <div class="car-wrap rounded ftco-animate">
+                        <div class="img rounded d-flex align-items-end" style="background-image: url(@car.ImgUrl)"></div>
+                        <div class="text">
+                            <h2 class="mb-0"><a href="#">@car.Brand</a></h2>
+                            <div class="d-flex mb-3">
+                                <span class="cat">@car.Description</span>
+                                <p class="price ml-auto">@ViewBag.TotalPrice</p>
+                            </div>
+                            <p class="d-flex mb-0 d-block">
+                                <a href="/Book/@car.CarId/@Model.PickupDate/@Model.DropoffDate" class="btn btn-primary py-2 mr-1">Book now</a>
+                                <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.CarId" class="btn btn-secondary py-2 ml-1">Details</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @*<div class="col-md-4">
                 <div class="car-wrap rounded ftco-animate">
                     <div class="img rounded d-flex align-items-end" style="background-image: url(images/car-1.jpg);">
                     </div>
@@ -35,7 +52,7 @@
                         <p class="d-flex mb-0 d-block"><a href="/Book/@car.CarId/@Model.PickupDate/@Model.DropoffDate" class="btn btn-primary py-2 mr-1">Book now</a> <a href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a></p>
                     </div>
                 </div>
-            </div>
+            </div>*@
             }
         </div>
         <div class="row mt-5">

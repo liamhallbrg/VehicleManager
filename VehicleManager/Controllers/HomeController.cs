@@ -42,6 +42,9 @@ namespace VehicleManager.Controllers
             index2VM.Cars = await carRepository.GetAllAsync(filter);
             index2VM.PickupDate = pickupDate;
             index2VM.DropoffDate = dropoffDate;
+            var category = await categoryRepository.GetByIdAsync(vehicleCategoryId);
+            ViewBag.TotalPrice = (dropoffDate - pickupDate).Days * category.PricePerDay;
+
             return View("Index2", index2VM);
         }
 
