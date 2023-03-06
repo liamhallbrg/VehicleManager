@@ -82,7 +82,7 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Create
         public IActionResult Create(int carId, DateTime pickupDate, DateTime dropoffDate)
         {
-            Rental rental = new()
+            RentalCustomerVM rental = new()
             {
                 CarId = carId,
                 PickUpDate = pickupDate,
@@ -96,11 +96,10 @@ namespace VehicleManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RentalId,CarId,CustomerId,PickUpDate,ReturnDate,BookingMade,TotalPrice")] Rental rental)
+        public async Task<IActionResult> Create([Bind("RentalId,CarId,CustomerId,PickUpDate,ReturnDate,BookingMade,TotalPrice")] Rental rental, Customer customer)
         {
             if (ModelState.IsValid)
             {
-                Customer customer = new();
                 await customerRepo.CreateAsync(customer);
                 rental.CustomerId = customer.CustomerId;
                 await rentalRepo.CreateAsync(rental);
