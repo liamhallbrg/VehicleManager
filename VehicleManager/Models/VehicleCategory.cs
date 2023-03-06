@@ -11,6 +11,6 @@ namespace VehicleManager.Models
         public string Description { get; set; } = string.Empty;
         [Required]
         public double PricePerDay { get; set; }
-        virtual public List<Car>? Cars { get; set; }
+        virtual public List<Car> Cars { get; set; } = new();
     }
 }

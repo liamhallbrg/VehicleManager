@@ -37,13 +37,24 @@ namespace VehicleManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(int vehicleCategoryId, DateTime pickupDate, DateTime dropoffDate)
         {
+            var category = await categoryRepository.GetByIdAsync(vehicleCategoryId);
+                if (category == null) return Redirect("/"); //TODO: Felhantering om kategori ID inte finns
+            var allRentals = await rentalRepository.GetAllAsync();
             Index2VM index2VM = new();
             Expression<Func<Car, bool>> filter = s => s.VehicleCategoryId == vehicleCategoryId;
             index2VM.Cars = await carRepository.GetAllAsync(filter);
             index2VM.PickupDate = pickupDate;
             index2VM.DropoffDate = dropoffDate;
-            var category = await categoryRepository.GetByIdAsync(vehicleCategoryId);
-            ViewBag.TotalPrice = (dropoffDate - pickupDate).Days * category.PricePerDay;
+            index2VM.TotalPrice = (dropoffDate - pickupDate).TotalDays * category.PricePerDay;
+
+            foreach (var car in index2VM.Cars.ToList())
+            {
+                if(allRentals.Where(r => r.CarId == car.CarId && (pickupDate < r.ReturnDate && r.PickUpDate < dropoffDate)).Any())
+                {
+                    index2VM.Cars.Remove(car);
+                }
+            }
+            //ViewBag.TotalPrice = (dropoffDate - pickupDate).Days * category.PricePerDay;
 
             return View("Index2", index2VM);
         }
