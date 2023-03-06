@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace VehicleManager.ViewModels
 {
@@ -15,6 +16,7 @@ namespace VehicleManager.ViewModels
 
         [Required]
         [MaxLength(40)]
+        [DisplayName("Förnamn")]
         public string FirstName { get; set; } = string.Empty;
         [Required]
         [MaxLength(40)]

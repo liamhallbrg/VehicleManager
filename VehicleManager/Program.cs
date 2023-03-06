@@ -28,7 +28,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(name: "index2",
-                pattern: "/Book/{carId}/{pickupDate}/{dropoffDate}",
+                pattern: "/Book/{carId}/{pickupDate}/{returnDate}",
                 defaults: new { controller = "Rentals", action = "Create" });
 app.MapControllerRoute(
     name: "default",

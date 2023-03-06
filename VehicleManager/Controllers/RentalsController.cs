@@ -81,13 +81,13 @@ namespace VehicleManager.Controllers
         }
 
         // GET: Rentals/Create
-        public IActionResult Create(int carId, DateTime pickupDate, DateTime dropoffDate)
+        public IActionResult Create(int carId, DateTime pickupDate, DateTime returnDate)
         {
             RentalCustomerVM rental = new()
             {
                 CarId = carId,
                 PickUpDate = pickupDate,
-                ReturnDate = dropoffDate
+                ReturnDate = returnDate
             };
             return View(rental);
         }

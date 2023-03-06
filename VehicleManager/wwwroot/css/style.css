@@ -8992,10 +8992,6 @@ h1, h2, h3, h4, h5,
     font-weight: 600; }
 
 .services .icon {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.05);
   margin: 0 auto;
   margin-bottom: 20px; }
   .services .icon span {
@@ -9003,7 +8999,7 @@ h1, h2, h3, h4, h5,
     color: #1089ff; }
 
 .services h3 {
-  font-size: 17px;
+  font-size: 12px;
   font-weight: 500; }
 
 .services.services-2 .icon {

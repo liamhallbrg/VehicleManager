@@ -6,7 +6,7 @@ namespace VehicleManager.ViewModels
     {
         public List<Car> Cars { get; set; } = new();
         public DateTime PickupDate { get; set; }
-        public DateTime DropoffDate { get; set; }
+        public DateTime ReturnDate { get; set; }
         public double TotalPrice { get; set; }
     }
 }

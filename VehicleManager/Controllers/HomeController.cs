@@ -35,7 +35,7 @@ namespace VehicleManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(int vehicleCategoryId, DateTime pickupDate, DateTime dropoffDate)
+        public async Task<IActionResult> Index(int vehicleCategoryId, DateTime pickupDate, DateTime returnDate)
         {
             var category = await categoryRepository.GetByIdAsync(vehicleCategoryId);
                 if (category == null) return Redirect("/"); //TODO: Felhantering om kategori ID inte finns
@@ -44,17 +44,17 @@ namespace VehicleManager.Controllers
             Expression<Func<Car, bool>> filter = s => s.VehicleCategoryId == vehicleCategoryId;
             index2VM.Cars = await carRepository.GetAllAsync(filter);
             index2VM.PickupDate = pickupDate;
-            index2VM.DropoffDate = dropoffDate;
-            index2VM.TotalPrice = (dropoffDate - pickupDate).TotalDays * category.PricePerDay;
+            index2VM.ReturnDate = returnDate;
+            index2VM.TotalPrice = (returnDate - pickupDate).TotalDays * category.PricePerDay;
 
             foreach (var car in index2VM.Cars.ToList())
             {
-                if(allRentals.Where(r => r.CarId == car.CarId && (pickupDate < r.ReturnDate && r.PickUpDate < dropoffDate)).Any())
+                if(allRentals.Where(r => r.CarId == car.CarId && (pickupDate < r.ReturnDate && r.PickUpDate < returnDate)).Any())
                 {
                     index2VM.Cars.Remove(car);
                 }
             }
-            //ViewBag.TotalPrice = (dropoffDate - pickupDate).Days * category.PricePerDay;
+            //ViewBag.TotalPrice = (returnDate - pickupDate).Days * category.PricePerDay;
 
             return View("Index2", index2VM);
         }
