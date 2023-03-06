@@ -46,14 +46,15 @@ namespace VehicleManager.Controllers
                     Id = rental.RentalId,
                     PickUpDate = rental.PickUpDate,
                     PlateNumber = car.PlateNumber,
-                    FullName = customer.FullName
+                    FullName = customer.FullName,
+                    AllRentals = await rentalRepo.GetAllAsync()
                 };
                 rentalViewModels.Add(rentalViewModel);
                 }
             }
 
 
-            ViewBag.Rentals = await rentalRepo.GetAllAsync();
+            //ViewBag.Rentals = await rentalRepo.GetAllAsync();
 
 
             return await rentalRepo.GetAllAsync() != null ?

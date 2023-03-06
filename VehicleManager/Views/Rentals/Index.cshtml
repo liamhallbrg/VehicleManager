@@ -39,9 +39,9 @@
                         @foreach (var rental in Model)
                         {
                             <tr>
-                                <td>@rental.PickUpDate</td>
-                                <td>@rental.PlateNumber</td>
-                                <td>@rental.FullName</td>
+                                <td>@Html.DisplayFor(m => rental.PickUpDate)</td>
+                                <td>@Html.DisplayFor(m => rental.PlateNumber)</td>
+                                <td>@Html.DisplayFor(m => rental.FullName)</td>
                             </tr>
                         }
                     </tbody>
@@ -61,16 +61,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var rental in ViewBag.Rentals)
+                            @foreach (var rental in Model[0].AllRentals)
                             {
                                 <tr>
-                                    <td>@rental.RentalId</td>
-                                    <td>@rental.CarId</td>
-                                    <td>@rental.CustomerId</td>
-                                    <td>@rental.PickUpDate</td>
-                                    <td>@rental.ReturnDate</td>
-                                    <td>@rental.BookingMade</td>
-                                    <td>@rental.TotalPrice</td>
+                                    <td>@Html.DisplayFor(r => rental.PickUpDate)</td>
+                                    <td>@Html.DisplayFor(r => rental.RentalId)</td>
+                                    <td>@Html.DisplayFor(r => rental.CarId)</td>
+                                    <td>@Html.DisplayFor(r => rental.CustomerId)</td>
+                                    <td>@Html.DisplayFor(r => rental.PickUpDate)</td>
+                                    <td>@Html.DisplayFor(r => rental.ReturnDate)</td>
+                                    <td>@Html.DisplayFor(r => rental.BookingMade)</td>
+                                    <td>@Html.DisplayFor(r => rental.TotalPrice)</td>
 
                                     <td>
                                     <a asp-action="Edit" asp-route-id="@rental.RentalId">Edit</a> |
