@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VehicleManager.Data;
+using VehicleManager.Helpers;
 using VehicleManager.Models;
 using VehicleManager.ViewModels;
 
@@ -51,8 +52,12 @@ namespace VehicleManager.Controllers
         // GET: Cars/Create
         public async Task<IActionResult> Create()
         {
-            ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
-            return View();
+            if(Utilities.IsAdmin())
+            {
+                ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
+                return View();
+            }
+            return Redirect("/");
         }
 
         // POST: Cars/Create
