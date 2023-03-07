@@ -64,7 +64,8 @@ namespace VehicleManager.Data
                     CarId = 1,
                     VehicleCategoryId = 1,
                     Brand = "Kia",
-                    Description = "Sorento",
+                    Model = "Sorento",
+                    Description = "",
                     ImgUrl = "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-1.jpg",
                     PlateNumber = "abc123"
                 },
@@ -73,7 +74,8 @@ namespace VehicleManager.Data
                     CarId = 2,
                     VehicleCategoryId = 2,
                     Brand = "Kia",
-                    Description = "Rio",
+                    Model = "Rio",
+                    Description = "",
                     ImgUrl = "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-2.jpg",
                     PlateNumber = "abc123"
                 },
@@ -82,7 +84,8 @@ namespace VehicleManager.Data
                     CarId = 3,
                     VehicleCategoryId = 3,
                     Brand = "Kia",
-                    Description = "Cadenza",
+                    Model = "Cadenza",
+                    Description = "",
                     ImgUrl = "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-5.jpg",
                     PlateNumber = "abc123"
                 },
@@ -91,7 +94,8 @@ namespace VehicleManager.Data
                     CarId = 4,
                     VehicleCategoryId = 4,
                     Brand = "Kia",
-                    Description = "Stinger",
+                    Model = "Stinger",
+                    Description = "",
                     ImgUrl = "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-6.jpg",
                     PlateNumber = "abc123"
                 },
@@ -100,7 +104,8 @@ namespace VehicleManager.Data
                     CarId = 5,
                     VehicleCategoryId = 5,
                     Brand = "Kia",
-                    Description = "Telluride Pickup Truck",
+                    Model = "Telluride Pickup Truck",
+                    Description = "",
                     ImgUrl = "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-10.jpg",
                     PlateNumber = "abc123"
                 },
@@ -109,11 +114,12 @@ namespace VehicleManager.Data
                     CarId = 6,
                     VehicleCategoryId = 6,
                     Brand = "Kia",
-                    Description = "Sedona",
+                    Model = "Sedona",
+                    Description = "",
                     ImgUrl = "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-8.jpg",
                     PlateNumber = "abc123"
                 }
-                );
+                ) ;
 
             modelBuilder.Entity<Customer>().HasData(
                 new Customer { CustomerId = 1, FirstName = "John", LastName = "Doe", Email = "johndoe@gmail.com", Address = "123 Main St", City = "Anytown", DriverLicenceNr = 123456789 },

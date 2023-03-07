@@ -8,7 +8,9 @@ namespace VehicleManager.Models
         public int VehicleCategoryId { get; set; }
         [Required]
         public string Brand { get; set; } = string.Empty;
-        [MaxLength (120)]
+        [Required]
+        public string Model { get; set; } = string.Empty;
+        [MaxLength (500)]
         public string Description { get; set; } = string.Empty;
         [Required]
         [MaxLength(20)]
