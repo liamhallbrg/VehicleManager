@@ -26,9 +26,11 @@ namespace VehicleManager.Controllers
         //GET: Cars
         public async Task<IActionResult> Index()
         {
-            return carRep != null ?
-                   View(await carRep.GetAllAsync()) :
-                   Problem("Entity set 'carRep'  is null.");
+            if (carRep == null)
+            {
+                return Problem("Entity set 'carRep'  is null.");
+            }  
+            return View(await carRep.GetAllAsync());
         }
 
         // GET: Cars/Details/5
