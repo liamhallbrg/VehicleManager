@@ -8,11 +8,12 @@ namespace VehicleManager.Models
 		public int CustomerId { get; set; }
 		[Required]
 		[MaxLength(40)]
-		[DisplayName("Förnamn")]
+		[DisplayName("First Name")]
 		public string FirstName { get; set; } = string.Empty;
 		[Required]
 		[MaxLength(40)]
-		public string LastName { get; set; } = string.Empty;
+        [DisplayName("Last Name")]
+        public string LastName { get; set; } = string.Empty;
 		public string FullName => $"{FirstName} {LastName}";
 		[Required]
 		public string Email { get; set; } = string.Empty;
