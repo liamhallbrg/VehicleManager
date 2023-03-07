@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Rent A Car Now" class="btn btn-secondary py-3 px-4">
+                                <input type="submit" value="Find Your Car" class="btn btn-secondary py-3 px-4">
                             </div>
                         </form>
                     </div>
@@ -100,19 +100,21 @@
                         if (category.Cars.Count != 0)
                         {
                             <div class="item">
-                                <div class="car-wrap rounded ftco-animate">
-                                    <div class="img rounded d-flex align-items-end" style="background-image: url(@category.Cars[0].ImgUrl)"></div>
-                                    <div class="text">
-                                        <h2 class="mb-0"><a href="#">@category.Name</a></h2>
-                                        <div class="d-flex mb-3">
-                                            <span class="cat">@category.Cars[0].Description</span>
-                                            <p class="price ml-auto">@category.PricePerDay<span> kr/day</span></p>
+                                <a asp-controller="VehicleCategories" asp-action="Details" asp-route-id="@category.VehicleCategoryId" class="py-2 ml-25-p">
+                                        <div class="car-wrap rounded ftco-animate">
+                                            <div class="img rounded d-flex align-items-end" style="background-image: url(@category.Cars[0].ImgUrl)"></div>
+                                            <div class="text">
+                                                <h2 class="mb-0">@category.Name</h2>
+                                                <div class="d-flex mb-3">
+                                                    <span class="cat">@category.Description</span>
+                                                    <p class="price ml-auto">@category.PricePerDay<span> kr/day</span></p>
+                                                </div>
+                                                <p class="d-flex mb-0 d-block">
+                                            
+                                                </p>
+                                            </div>
                                         </div>
-                                        <p class="d-flex mb-0 d-block">
-                                            <a asp-controller="VehicleCategories" asp-action="Details" asp-route-id="@category.VehicleCategoryId" class="btn btn-secondary py-2 ml-25-p">Details</a>
-                                        </p>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                         }
                     }
