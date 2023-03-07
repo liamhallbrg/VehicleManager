@@ -86,6 +86,10 @@ namespace VehicleManager.Controllers
         public IActionResult Create(int carId, DateTime pickupDate, DateTime returnDate)
         {
             var car = carRepo.GetByIdAsync(carId).Result;
+            if (car == null)
+            {
+                return Redirect("/Home");
+            }
             var category = categoryRepo.GetByIdAsync(car.VehicleCategoryId).Result;
 
             RentalCustomerVM rentalCustomerVM = new();
