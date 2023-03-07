@@ -11,7 +11,7 @@
                 <p>
                     <a asp-action="Create">Create New</a>
                 </p>
-                <table class="table">
+                <table id="customertable" class="table table-striped">
                     <thead>
                         <tr>
                             <th>
@@ -70,3 +70,29 @@
         </div>
     </div>
 </section>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var table = $('#customertable').DataTable();
+
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.header()).on('keyup change clear', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap5.min.js"></script>
+
+
+        }

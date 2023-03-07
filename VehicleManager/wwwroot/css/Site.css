@@ -32,3 +32,13 @@
     -moz-appearance: none;
     appearance: none;
 }
+}
+.table-responsive {
+    font-size: 14px;
+}
+
+.table td,
+.table th {
+    padding: 0.5rem;
+    vertical-align: top;
+}
