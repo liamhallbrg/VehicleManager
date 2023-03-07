@@ -11,13 +11,15 @@ namespace VehicleManager.Controllers
         private readonly IRepository<Rental> rentalRepo;
         private readonly IRepository<Customer> customerRepo;
         private readonly IRepository<Car> carRepo;
+        private readonly IRepository<VehicleCategory> categoryRepo;
 
-        public RentalsController(IRepository<Rental> rentalRepo, IRepository<Customer> customerRepo, IRepository<Car> carRepo)
+        public RentalsController(IRepository<Rental> rentalRepo, IRepository<Customer> customerRepo, IRepository<Car> carRepo, IRepository<VehicleCategory> categoryRepo)
         {
 
             this.rentalRepo = rentalRepo;
             this.customerRepo = customerRepo;
             this.carRepo = carRepo;
+            this.categoryRepo = categoryRepo;
         }
 
         // GET: Rentals
@@ -83,13 +85,18 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Create
         public IActionResult Create(int carId, DateTime pickupDate, DateTime returnDate)
         {
-            RentalCustomerVM rental = new()
-            {
-                CarId = carId,
-                PickUpDate = pickupDate,
-                ReturnDate = returnDate
-            };
-            return View(rental);
+            var car = carRepo.GetByIdAsync(carId).Result;
+            var category = categoryRepo.GetByIdAsync(car.VehicleCategoryId).Result;
+
+            RentalCustomerVM rentalCustomerVM = new();
+            rentalCustomerVM.PickUpDate = pickupDate;
+            rentalCustomerVM.ReturnDate = returnDate;
+            rentalCustomerVM.TotalPrice = (returnDate - pickupDate).TotalDays * category.PricePerDay;
+            rentalCustomerVM.ImgUrl = car.ImgUrl;
+            rentalCustomerVM.Brand = car.Brand;
+            rentalCustomerVM.Name = category.Name;
+
+            return View(rentalCustomerVM);
         }
 
         // POST: Rentals/Create
