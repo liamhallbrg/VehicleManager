@@ -65,13 +65,14 @@ namespace VehicleManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CarId,VehicleCategoryId,Brand,Description,PlateNumber,ImgUrl")] Car car)
+        public async Task<IActionResult> Create([Bind("CarId,VehicleCategoryId,Brand,Model,Description,PlateNumber,ImgUrl")] Car car)
         {
             if (ModelState.IsValid)
             {
                 await carRep.CreateAsync(car);
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
             return View(car);
         }
 
@@ -100,7 +101,7 @@ namespace VehicleManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CarId,VehicleCategoryId,Brand,Description,PlateNumber,ImgUrl")] Car car)
+        public async Task<IActionResult> Edit(int id, [Bind("CarId,VehicleCategoryId,Brand,Model,Description,PlateNumber,ImgUrl")] Car car)
         {
             if (id != car.CarId)
             {
