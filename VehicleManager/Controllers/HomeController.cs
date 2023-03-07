@@ -42,6 +42,10 @@ namespace VehicleManager.Controllers
             var allRentals = await rentalRepository.GetAllAsync();
             Index2VM index2VM = new();
             Expression<Func<Car, bool>> filter = s => s.VehicleCategoryId == vehicleCategoryId;
+
+            index2VM.Category = category;
+            index2VM.Selected = vehicleCategoryId;
+            index2VM.VehicleCategories = await categoryRepository.GetAllAsync();
             index2VM.Cars = await carRepository.GetAllAsync(filter);
             index2VM.PickupDate = pickupDate;
             index2VM.ReturnDate = returnDate;
