@@ -33,11 +33,5 @@
     appearance: none;
 }
 
-.table-responsive {
-    font-size: 14px;
-}
 
-.table td,
-.table th {
-    text-align:left;
-}
+
