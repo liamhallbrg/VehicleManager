@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using VehicleManager.Data;
 using VehicleManager.Models;
 using VehicleManager.ViewModels;
@@ -28,17 +29,12 @@ namespace VehicleManager.Controllers
 
         public async Task<IActionResult> Index()
         {
+            
             var rentals = await rentalRepo.GetAllAsync();
             var rentalViewModels = new List<RentalViewModel>();
 
-            var startDate = DateTime.Today;
-            var endDate = startDate.AddDays(7);
-
             foreach (var rental in rentals)
             {
-
-                if (rental.PickUpDate >= startDate && rental.PickUpDate <=endDate)
-                {
 
                 var car = await carRepo.GetByIdAsync(rental.CarId);
                 var customer = await customerRepo.GetByIdAsync(rental.CustomerId);
@@ -47,14 +43,15 @@ namespace VehicleManager.Controllers
                 {
                     Id = rental.RentalId,
                     PickUpDate = rental.PickUpDate,
+                    ReturnDate = rental.ReturnDate,
+                    BookingMade = rental.BookingMade,
+                    TotalPrice = rental.TotalPrice,
                     PlateNumber = car.PlateNumber,
                     FullName = customer.FullName,
-                    AllRentals = await rentalRepo.GetAllAsync()
+                    CarId = car.CarId
                 };
                 rentalViewModels.Add(rentalViewModel);
-                }
             }
-
 
             //ViewBag.Rentals = await rentalRepo.GetAllAsync();
 

@@ -23,11 +23,14 @@
                     <tbody>
                         @foreach (var rental in Model)
                         {
+                            @if(rental.PickUpDate >= DateTime.Now && rental.PickUpDate <= DateTime.Now.AddDays(7))
+                            {
                             <tr>
                                 <td>@Html.DisplayFor(m => rental.PickUpDate)</td>
                                 <td>@Html.DisplayFor(m => rental.PlateNumber)</td>
                                 <td>@Html.DisplayFor(m => rental.FullName)</td>
                             </tr>
+                            }
                         }
                     </tbody>
                     </table>
@@ -39,7 +42,7 @@
                             <tr>
                                 <th>Rental ID</th>
                                 <th>Car ID</th>
-                                <th>Customer ID</th>
+                                <th>Full Name</th>
                                 <th>Pick Up Date</th>
                                 <th>Return Date</th>
                                 <th>Booking Made</th>
@@ -48,20 +51,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var rental in Model[0].AllRentals)
+                            @foreach (var rental in Model)
                             {
                                 <tr>
-                                    <td>@Html.DisplayFor(r => rental.RentalId)</td>
+                                    <td>@Html.DisplayFor(r => rental.Id)</td>
                                     <td>@Html.DisplayFor(r => rental.CarId)</td>
-                                    <td>@Html.DisplayFor(r => rental.CustomerId)</td>
+                                    <td>@Html.DisplayFor(r => rental.FullName)</td>
                                     <td>@Html.DisplayFor(r => rental.PickUpDate)</td>
                                     <td>@Html.DisplayFor(r => rental.ReturnDate)</td>
                                     <td>@Html.DisplayFor(r => rental.BookingMade)</td>
-                                    <td>@Html.DisplayFor(r => rental.TotalPrice)</td>
+                                    <td>$@Html.DisplayFor(r => rental.TotalPrice)</td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@rental.RentalId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@rental.RentalId">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@rental.RentalId">Delete</a>
+                                    <a asp-action="Edit" asp-route-id="@rental.Id">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@rental.Id">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@rental.Id">Delete</a>
                                 </td>
                                 </tr>
                             }
