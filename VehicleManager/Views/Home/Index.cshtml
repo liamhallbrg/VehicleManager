@@ -1,4 +1,5 @@
-﻿@model VehicleManager.ViewModels.IndexVM
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model VehicleManager.ViewModels.IndexVM
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -127,7 +128,14 @@
             <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
                 <div class="block-18">
                     <div class="text text-border d-flex align-items-center">
-                        <strong class="number" data-number="60">0</strong>
+                        @if (Context.Request.Cookies["FirstRun"] == "true")
+                        {
+                            Context.Response.Cookies.Append("FirstRun", "false");
+                            <strong class="number" data-number="60">0</strong>
+                        } else
+                        {
+                            <strong class="number">60</strong>
+                        }
                         <span>Year <br>Experienced</span>
                     </div>
                 </div>
@@ -135,7 +143,15 @@
             <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
                 <div class="block-18">
                     <div class="text text-border d-flex align-items-center">
-                        <strong class="number" data-number="1090">0</strong>
+                        @if (Context.Request.Cookies["FirstRun"] == "true")
+                        {
+                            Context.Response.Cookies.Append("FirstRun", "false");
+                            <strong class="number" data-number="1090">0</strong>
+                        }
+                        else
+                        {
+                            <strong class="number">1090</strong>
+                        }
                         <span>Total <br>Cars</span>
                     </div>
                 </div>
@@ -143,7 +159,15 @@
             <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
                 <div class="block-18">
                     <div class="text text-border d-flex align-items-center">
-                        <strong class="number" data-number="2590">0</strong>
+                        @if (Context.Request.Cookies["FirstRun"] == "true")
+                        {
+                            Context.Response.Cookies.Append("FirstRun", "false");
+                            <strong class="number" data-number="2590">0</strong>
+                        }
+                        else
+                        {
+                            <strong class="number">2590</strong>
+                        }
                         <span>Happy <br>Customers</span>
                     </div>
                 </div>
@@ -151,7 +175,15 @@
             <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
                 <div class="block-18">
                     <div class="text d-flex align-items-center">
-                        <strong class="number" data-number="67">0</strong>
+                        @if (Context.Request.Cookies["FirstRun"] == "true")
+                        {
+                            Context.Response.Cookies.Append("FirstRun", "false");
+                            <strong class="number" data-number="67">0</strong>
+                        }
+                        else
+                        {
+                            <strong class="number">67</strong>
+                        }
                         <span>Total <br>Branches</span>
                     </div>
                 </div>
@@ -159,3 +191,46 @@
         </div>
     </div>
 </section>
+@section Scripts {
+    <script type="text/javascript">
+        // scroll
+        var scrollWindow = function () {
+            $(window).scroll(function () {
+                var $w = $(this),
+                    st = $w.scrollTop(),
+                    navbar = $('.ftco_navbar'),
+                    sd = $('.js-scroll-wrap');
+
+                if (st > 150) {
+                    if (!navbar.hasClass('scrolled')) {
+                        navbar.addClass('scrolled');
+                    }
+                }
+                if (st < 150) {
+                    if (navbar.hasClass('scrolled')) {
+                        navbar.removeClass('scrolled sleep');
+                    }
+                }
+                if (st > 350) {
+                    if (!navbar.hasClass('awake')) {
+                        navbar.addClass('awake');
+                    }
+
+                    if (sd.length > 0) {
+                        sd.addClass('sleep');
+                    }
+                }
+                if (st < 350) {
+                    if (navbar.hasClass('awake')) {
+                        navbar.removeClass('awake');
+                        navbar.addClass('sleep');
+                    }
+                    if (sd.length > 0) {
+                        sd.removeClass('sleep');
+                    }
+                }
+            });
+        };
+        scrollWindow();
+    </script>
+}
