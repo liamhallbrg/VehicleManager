@@ -28,8 +28,8 @@
                                     <div class="car-details">
                                         <img class="rounded" src="@Model.ImgUrl" style="max-width: 100%" />
                                         <div class="text text-center">
-                                            <span class="subheading">Cheverolet</span>
-                                            <h2>Mercedes Grand Sedan</h2>
+                                            <span class="subheading">@Model.Brand</span>
+                                            <h2>@Model.Name</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -237,7 +237,7 @@
                         </div>
                         <div class="d-flex mb-3 alert alert-success">
                             <span>Total Price:</span>
-                            <p class="price ml-auto mb-0">5000 kr</p>
+                            <p class="price ml-auto mb-0">@Html.DisplayFor(m=>Model.TotalPrice)</p>
                         </div>
 
                         <div class="form-group">
