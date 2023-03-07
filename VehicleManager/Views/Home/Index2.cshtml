@@ -88,16 +88,15 @@
                             <div class="card my-3 border-0 shadow-sm">
                                 <a href="/Book/@car.CarId/@Model.PickupDate/@Model.ReturnDate">
                                 
-                                        <img src="@car.ImgUrl" class="card-img-top" alt="@car.Brand @car.Model" style="object-fit:cover; height:12em;" />
-                                        <div class="mask" style="background-color: hsla(0, 0%, 98%, 0.2)"></div>
-                                        <div class="card-body align-text-bottom">
-                                            <h5 class="card-title">@car.Brand @car.Model</h5>
-                                            <p class="price ml-auto">@Model.Category.PricePerDay<span>kr/day</span></p>
-                                        </div>
+                                    <img src="@car.ImgUrl" class="card-img-top" alt="@car.Brand @car.Model" style="object-fit:cover; height:12em;" />
+                                    <div class="mask" style="background-color: hsla(0, 0%, 98%, 0.2)"></div>
+                                    <div class="card-body align-text-bottom">
+                                        <h5 class="card-title">@car.Brand @car.Model</h5>
+                                        <p class="price ml-auto">@Model.Category.PricePerDay<span>kr/day</span></p>
+                                    </div>
                                 </a>
                             </div>
                         </div>
-
                     }
                 }
             }
@@ -105,19 +104,3 @@
     </div>
 </section>
 
-
-
-<!--
-    <div class="car-wrap rounded ftco-animate">
-        <a href="/Book/@car.CarId/@Model.PickupDate/@Model.ReturnDate">
-            <div class="img rounded d-flex align-items-end hover-shadow" style="background-image: url(@car.ImgUrl)"></div>
-            <div class="text">
-                <h2 class="mb-0">@car.Brand</h2>
-                <div class="d-flex mb-3">
-                    <span class="cat">@car.Description</span>
-                    <p class="price ml-auto">@Model.Category.PricePerDay <span> kr/day</span></p>
-                </div>
-            </div>
-        </a>
-    </div>
-//-->
