@@ -55,31 +55,31 @@ namespace VehicleManager.Data
                 //SUV
                 new Car
                 {
-                    CarId = 1, VehicleCategoryId = 1, Brand = "Kia", Model = "Sorento", Description = "",
-                    ImgUrl = "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-1.jpg",
+                    CarId = 1, VehicleCategoryId = 1, Brand = "Kia", Model = "Sorento", Description = "Car description",
+                    ImgUrl = "https://assets-clean.local-car-finder.com/images/15316/15316_st1280_089.png",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 7, VehicleCategoryId = 1, Brand = "Toyota", Model = "Fortuner", Description = "",
+                    CarId = 7, VehicleCategoryId = 1, Brand = "Toyota", Model = "Fortuner", Description = "Car description",
                     ImgUrl = "https://cdni.autocarindia.com/utils/imageresizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/Toyota-Fortuner-110120211829.jpg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 8, VehicleCategoryId = 1, Brand = "Audi", Model = "Q3 Quattro", Description = "",
-                    ImgUrl = "https://www.aa.co.nz/assets/motoring/car-reviews/audi/a3-2022/_resampled/FillWyIxMjgwIiwiNzIwIl0/Audi-1.jpg?m=1643061698",
+                    CarId = 8, VehicleCategoryId = 1, Brand = "Audi", Model = "Q3 Quattro", Description = "Car description",
+                    ImgUrl = "https://inventory.dealersocket.com/api/photo/ZAltwpW4/1024x0/1675973999/u/ecl/RU1k/dCe4/c1eG/6Z1Q/1kKv/cQ.jpg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 9, VehicleCategoryId = 1, Brand = "Hummer", Model = "H2", Description = "",
+                    CarId = 9, VehicleCategoryId = 1, Brand = "Hummer", Model = "H2", Description = "Car description",
                     ImgUrl = "https://stimg.cardekho.com/images/carexteriorimages/930x620/Hummer/Hummer-H2/321/1561092676445/front-left-side-47.jpg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 10, VehicleCategoryId = 1, Brand = "Porsche", Model = "Cayenne", Description = "",
+                    CarId = 10, VehicleCategoryId = 1, Brand = "Porsche", Model = "Cayenne", Description = "Car description",
                     ImgUrl = "https://imgd.aeplcdn.com/1280x720/cw/ec/32951/Porsche-Cayenne-Exterior-138359.jpg?wm=0&q=75",
                     PlateNumber = "abc123"
                 },
@@ -87,31 +87,31 @@ namespace VehicleManager.Data
                 //Sedan
                 new Car
                 {
-                    CarId = 2, VehicleCategoryId = 2, Brand = "Kia", Model = "Cadenza", Description = "",
-                    ImgUrl = "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-5.jpg",
+                    CarId = 2, VehicleCategoryId = 2, Brand = "Kia", Model = "Cadenza", Description = "Car description",
+                    ImgUrl = "https://www.motortrend.com/uploads/izmo/kia/cadenza/2020/cadenza.png",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 3, VehicleCategoryId = 2, Brand = "Toyota", Model = "Camry", Description = "",
+                    CarId = 3, VehicleCategoryId = 2, Brand = "Toyota", Model = "Camry", Description = "Car description",
                     ImgUrl = "https://imgd.aeplcdn.com/1200x900/n/cw/ec/110233/2022-camry-exterior-right-front-three-quarter.jpeg?isig=0&q=75",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 11, VehicleCategoryId = 2, Brand = "Honda", Model = "Accord", Description = "",
+                    CarId = 11, VehicleCategoryId = 2, Brand = "Honda", Model = "Accord", Description = "Car description",
                     ImgUrl = "https://imgd.aeplcdn.com/0x0/cw/ec/21613/Honda-Accord-Right-Front-Three-Quarter-82683.jpg?v=201711021421",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 12, VehicleCategoryId = 2, Brand = "Mercedes-Benz", Model = "S-Class", Description = "",
+                    CarId = 12, VehicleCategoryId = 2, Brand = "Mercedes-Benz", Model = "S-Class", Description = "Car description",
                     ImgUrl = "https://www.mercedes-benz.se/passengercars/mercedes-benz-cars/s-class/range-overview/_jcr_content/swipeableteaserbox/par/swipeableteaser/asset.MQ6.12.20210602153015.jpeg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 13, VehicleCategoryId = 2, Brand = "BMW", Model = "5-Series", Description = "",
+                    CarId = 13, VehicleCategoryId = 2, Brand = "BMW", Model = "5-Series", Description = "Car description",
                     ImgUrl = "https://www.bmw.in/content/dam/bmw/marketIN/bmw_in/all-models/5-series/2020/Interior-andexterior/530d-M-Sport-Front-Quarter.jpg.asset.1623071674609.jpg",
                     PlateNumber = "abc123"
                 },
@@ -120,62 +120,62 @@ namespace VehicleManager.Data
 
                 new Car
                 {
-                    CarId = 4, VehicleCategoryId = 3, Brand = "Kia", Model = "Stinger", Description = "",
-                    ImgUrl = "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-6.jpg",
+                    CarId = 4, VehicleCategoryId = 3, Brand = "Kia", Model = "Stinger", Description = "Car description",
+                    ImgUrl = "https://m.atcdn.co.uk/vms/media/e3821c59c01441719e67442360718ecf.jpg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 14, VehicleCategoryId = 3, Brand = "Porsche", Model = "911", Description = "",
-                    ImgUrl = "https://s3.ecompletocarros.dev/images/lojas/285/veiculos/104099/veiculoInfoVeiculoImagesMobile/vehicle_image_1655206735_d41d8cd98f00b204e9800998ecf8427e.jpeg",
+                    CarId = 14, VehicleCategoryId = 3, Brand = "Porsche", Model = "911", Description = "Car description",
+                    ImgUrl = "https://tdrresearch.azureedge.net/photos/chrome/Expanded/White/2021PRC010103/2021PRC01010301.jpg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 15, VehicleCategoryId = 3, Brand = "Chevrolet", Model = "Corvette", Description = "",
+                    CarId = 15, VehicleCategoryId = 3, Brand = "Chevrolet", Model = "Corvette", Description = "Car description",
                     ImgUrl = "https://www.chevrolet.com.mx/content/dam/chevrolet/na/mx/es/index/performance/2023-corvette-stingray/colorizer/jellys/black.jpg?imwidth=960",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 16, VehicleCategoryId = 3, Brand = "Audi", Model = "R8", Description = "",
+                    CarId = 16, VehicleCategoryId = 3, Brand = "Audi", Model = "R8", Description = "Car description",
                     ImgUrl = "https://mediaservice.audi.com/media/fast/H4sIAAAAAAAAAFvzloG1tIiBOTrayfuvpGh6-m1zJgaGigIGBgZGoDhTtNOaz-I_2DhCHkCFmZQZWMpTkwoYgSrcmLgycxPTU_VBArz____nZ-QustBNrSjRzUvNzWcHKhHkiZsfe9Uw6_id7Q-9vswPcnnBfueZOAOP5I12FrNLew-2znNlmMC35scXWVYfBh4zex33VgEGr7gsDulu9xl7Hy6oZWbg4TW-PefHP5aZep8faqne937GscFNm4GnVCPogbFQwfYPGpHX08-uzWD6YTeLgefYQuU3z-9lz7BZlM9wmm_Jvw_P_gLNPWW3dm-h6SrFcv1NL7ZpNVZ2lnyZDRR1mn31tOCp33K3n23XmLfm_gmWKCEGnh-taY8Y_cOTDgioMH91rql2WjYtl4GnXUGyQu7CH6-ENxdffdr5nrln8ROgGx7dWV_Cxbpjq0tetNre7_7Ol-WehzHwHLW7m2XMH80we60ZQ9XfLrM-kRdTGXj2Vij-ZomzELj55MTlzr8nZdOvWwgy8Bhlq3z6UJ0htC89XDRI4dsuj_feTgw8c45a_p6440W6hirHZ52PJu8rE5awMPAwPNDLqtdewTRZz-jLdqVll3aHLH_OwNN51f1lSnDMTB5pniyPd5PnxTAtPcfACowept1AgiUOSPA8ARIcNgxgEhRxG4AE40IQn7WemYGB24GBgS2EAQT4hEuLcgoSixJz9YpSiwvy84ozy1IFNQyIBMKsPo6RrkEAFfedMlYCAAA?mimetype=image/png",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 17, VehicleCategoryId = 3, Brand = "Nissan", Model = "GTR", Description = "",
+                    CarId = 17, VehicleCategoryId = 3, Brand = "Nissan", Model = "GTR", Description = "Car description",
                     ImgUrl = "https://www.nissan.se/content/dam/Nissan/nissan_europe/experience_nissan/performance/18tdieu-helios317.jpg",
                     PlateNumber = "abc123"
                 },
                 //Pickup
                 new Car
                 {
-                    CarId = 5, VehicleCategoryId = 4, Brand = "Kia", Model = "Telluride Pickup Truck", Description = "",
-                    ImgUrl = "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-10.jpg",
+                    CarId = 5, VehicleCategoryId = 4, Brand = "GMC", Model = "Canyon", Description = "Car description",
+                    ImgUrl = "https://inv.assets.sincrod.com/RTT/GMC/2023/5959513/default/ext_GAZ_deg02.jpg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 18, VehicleCategoryId = 4, Brand = "Ford", Model = "F-150", Description = "",
+                    CarId = 18, VehicleCategoryId = 4, Brand = "Ford", Model = "F-150", Description = "Car description",
                     ImgUrl = "https://di-uploads-pod14.dealerinspire.com/kingsford/uploads/2020/06/2021-Ford-F-150-left-1.jpg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 19, VehicleCategoryId = 4, Brand = "Chevrolet", Model = "Silverado", Description = "",
+                    CarId = 19, VehicleCategoryId = 4, Brand = "Chevrolet", Model = "Silverado", Description = "Car description",
                     ImgUrl = "https://www.hsv.com.au/images/see/silverado/Silverado-2500HD-LTZ-Midnight-Edition-Black.jpg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 20, VehicleCategoryId = 4, Brand = "RAM", Model = "1500", Description = "",
+                    CarId = 20, VehicleCategoryId = 4, Brand = "RAM", Model = "1500", Description = "Car description",
                     ImgUrl = "https://aeceurope.com/wp-content/uploads/2022/07/ram_trx_flame_red_x_black.jpg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 21, VehicleCategoryId = 4, Brand = "Toyota ", Model = "Tacoma", Description = "",
+                    CarId = 21, VehicleCategoryId = 4, Brand = "Toyota ", Model = "Tacoma", Description = "Car description",
                     ImgUrl = "https://www.toyotaofnewbern.com/assets/stock/colormatched_01/transparent/1280/cc_2023tot09_01_1280/cc_2023tot090074_01_1280_040.png?bg-color=FFFFFF",
                     PlateNumber = "abc123"
                 },
@@ -183,31 +183,31 @@ namespace VehicleManager.Data
 
                 new Car
                 {
-                    CarId = 6, VehicleCategoryId = 5, Brand = "Kia", Model = "Sedona", Description = "",
-                    ImgUrl = "https://www.kia.com/content/dam/kwcms/gt/en/images/discover-kia/voice-search/parts-80-8.jpg",
+                    CarId = 6, VehicleCategoryId = 5, Brand = "Kia", Model = "Sedona", Description = "Car description",
+                    ImgUrl = "https://di-uploads-pod12.dealerinspire.com/beavertonkiaredesign/uploads/2019/04/white-kia-sedona-cc0998a8.jpg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 22, VehicleCategoryId = 5, Brand = "Chrysler", Model = "Pacifica", Description = "",
-                    ImgUrl = "https://media.ed.edmunds-media.com/chrysler/pacifica/2023/oem/2023_chrysler_pacifica_passenger-minivan_hybrid-pinnacle_fq_oem_1_1600.jpg",
+                    CarId = 22, VehicleCategoryId = 5, Brand = "Chrysler", Model = "Pacifica", Description = "Car description",
+                    ImgUrl = "https://medias.fcacanada.ca/jellies/renditions/2023/800x510/CC23_RUCS53_2DS_PAU_APA_XXX_XXX_XXX.ec6a769ba13c51aaf9074a442629fe4c.png",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 23, VehicleCategoryId = 5, Brand = "Honda", Model = "Odyssey", Description = "",
+                    CarId = 23, VehicleCategoryId = 5, Brand = "Honda", Model = "Odyssey", Description = "Car description",
                     ImgUrl = "https://www.honda.ca/-/media/Brands/Honda/Models/ODYSSEY/2023/Overview/03_Key-Features/desktop/Honda_Odyssey_key-features_desktop_1036x520.png?h=520&iar=0&w=1036&rev=fb3f14bd71a94de697e91e783024600a&hash=33043FE0D7B4FD01D4C775BD095CFEED",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 24, VehicleCategoryId = 5, Brand = "Toyota", Model = "Sienna", Description = "",
+                    CarId = 24, VehicleCategoryId = 5, Brand = "Toyota", Model = "Sienna", Description = "Car description",
                     ImgUrl = "https://di-uploads-pod28.dealerinspire.com/colonialtoyota/uploads/2021/11/2022-Toyota-Sienna-LE-.jpg",
                     PlateNumber = "abc123"
                 },
                 new Car
                 {
-                    CarId = 25, VehicleCategoryId = 5, Brand = "Dodge ", Model = "Grand Caravan", Description = "",
+                    CarId = 25, VehicleCategoryId = 5, Brand = "Dodge ", Model = "Grand Caravan", Description = "Car description",
                     ImgUrl = "https://images.hgmsites.net/lrg/2010-dodge-grand-caravan-4-door-wagon-sxt-angular-front-exterior-view_100252340_l.jpg",
                     PlateNumber = "abc123"
                 }
