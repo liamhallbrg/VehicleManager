@@ -274,14 +274,33 @@
     fixedContentPos: false
   });
 
-
-	$('#book_pick_date,#book_off_date').datepicker({
-	  'format': 'm/d/yyyy',
-	  'autoclose': true
+	if ($('#book_pick_date').val() < $('#book_off_date').val()) {
+		var currentDate = new Date($('#book_pick_date').val());
+		currentDate.setDate(currentDate.getDate() + 1);
+		$('#book_off_date').datepicker({
+			format: "yyyy-mm-dd",
+			autoclose: true,
+			weekStart: 1,
+			startDate: currentDate
+		});
+	}
+	$('#book_pick_date').datepicker({
+		format: "yyyy-mm-dd",
+		autoclose: true,
+		weekStart: 1,
+		startDate: '0d'
+	}).on('changeDate', function () {
+		$('#book_off_date').datepicker('remove').val('Date');
+		$('#book_off_date').prop("disabled", false);
+		var currentDate = new Date($('#book_pick_date').val());
+		currentDate.setDate(currentDate.getDate() + 1);
+		$('#book_off_date').datepicker({
+			format: "yyyy-mm-dd",
+			autoclose: true,
+			weekStart: 1,
+			startDate: currentDate
+		});
 	});
-	$('#time_pick').timepicker();
-
-
 
 })(jQuery);
 

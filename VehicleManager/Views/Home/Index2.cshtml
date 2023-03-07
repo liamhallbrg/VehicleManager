@@ -2,42 +2,112 @@
 @{
     ViewData["Title"] = "Index";
 }
+
 <section class="ftco-section bg-light">
     <div class="container">
-        <div class="row">
-            @foreach (var car in Model.Cars)
-            {
-
-                <div class="item">
-                    <div class="car-wrap rounded ftco-animate">
-                        <div class="img rounded d-flex align-items-end" style="background-image: url(@car.ImgUrl)"></div>
-                        <div class="text">
-                            <h2 class="mb-0"><a href="#">@car.Brand</a></h2>
-                            <div class="d-flex mb-3">
-                                <span class="cat">@car.Description</span>
-                                <p class="price ml-auto">@Model.TotalPrice</p>
+        <div class="row no-gutters">
+            <div class="col-md-12">
+                <div class="row no-gutters">
+                    <div class="col-md-4 d-flex align-items-center">
+                        <form asp-action="Index" class="request-form ftco-animate bg-primary">
+                            <h2>Make your trip</h2>
+                            <div class="form-group">
+                                <label for="" class="label">Vehicle Category</label>
+                                <select name="vehicleCategoryId" class="form-select" style="background-color: #1089ff !important;" asp-items="@(new SelectList(Model.VehicleCategories, nameof(VehicleCategory.VehicleCategoryId), nameof(VehicleCategory.Name), Model.Selected))">
+                                </select>
                             </div>
-                            <p class="d-flex mb-0 d-block">
-                                <a href="/Book/@car.CarId/@Model.PickupDate/@Model.ReturnDate" class="btn btn-primary py-2 mr-1">Book now</a>
-                                <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.CarId" class="btn btn-secondary py-2 ml-1">Details</a>
-                            </p>
+                            <div class="d-flex">
+                                <div class="form-group mr-2">
+                                    <label for="" class="label">Pick-up date</label>
+                                    <input name="pickupDate" type="text" class="form-control" id="book_pick_date" placeholder="Date" autocomplete="off" value="@Html.DisplayFor(p => p.PickupDate)">
+                                </div>
+                                <div class="form-group ml-2">
+                                    <label for="" class="label">Drop-off date</label>
+                                    <input name="returnDate" type="text" class="form-control" id="book_off_date" placeholder="Date" autocomplete="off" value="@Html.DisplayFor(p => p.ReturnDate)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Rent A Car Now" class="btn btn-secondary py-3 px-4">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-8 d-flex align-items-center">
+                        <div class="services-wrap rounded-right w-100">
+                            <h3 class="heading-section mb-4">Better Way to Rent Your Perfect Cars</h3>
+                            <div class="row d-flex mb-4">
+                                <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                    <div class="services w-100 text-center">
+                                        <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+                                        <div class="text w-100">
+                                            <h3 class="heading mb-2">Choose Your Date and Vehicle Type</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                    <div class="services w-100 text-center">
+                                        <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-handshake"></span></div>
+                                        <div class="text w-100">
+                                            <h3 class="heading mb-2">Select the Best Deal</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                    <div class="services w-100 text-center">
+                                        <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-rent"></span></div>
+                                        <div class="text w-100">
+                                            <h3 class="heading mb-2">Reserve Your Rental Car</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            @*<div class="col-md-4">
-                <div class="car-wrap rounded ftco-animate">
-                    <div class="img rounded d-flex align-items-end" style="background-image: url(images/car-1.jpg);">
-                    </div>
-                    <div class="text">
-                        <h2 class="mb-0"><a href="car-single.html">Mercedes Grand Sedan</a></h2>
-                        <div class="d-flex mb-3">
-                            <span class="cat">Cheverolet</span>
-                            <p class="price ml-auto">$500 <span>/day</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section ftco-no-pt bg-light">
+    <div class="container">
+        <div class="row">
+            @{
+                @if (!Model.Cars.Any())
+                {
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            There are no available cars in this category for this period.
                         </div>
-                        <p class="d-flex mb-0 d-block"><a href="/Book/@car.CarId/@Model.PickupDate/@Model.returnDate" class="btn btn-primary py-2 mr-1">Book now</a> <a href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a></p>
                     </div>
-                </div>
-            </div>*@
+                } else
+                {
+                    var i = 0;
+                    foreach (var car in Model.Cars)
+                    {
+
+                        <div class="col-md-4">
+                            <div class="car-wrap rounded ftco-animate">
+                                <div class="img rounded d-flex align-items-end" style="background-image: url(@car.ImgUrl)"></div>
+                                <div class="text">
+                                    <h2 class="mb-0"><a href="#">@car.Brand</a></h2>
+                                    <div class="d-flex mb-3">
+                                        <span class="cat">@car.Description</span>
+                                        <p class="price ml-auto">$@Model.Category.PricePerDay <span>/day</span></p>
+                                    </div>
+                                    <p class="d-flex mb-0 d-block">
+                                        <a href="/Book/@car.CarId/@Model.PickupDate/@Model.ReturnDate" class="btn btn-primary py-2 mr-1">Book now</a>
+                                        <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.CarId" class="btn btn-secondary py-2 ml-1">Details</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        if(i % 3 == 0)
+                        {
+                            @:</div><div class="row">
+                        }
+                        i++;
+                    }
+                }
             }
         </div>
     </div>
