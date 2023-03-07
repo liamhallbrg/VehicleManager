@@ -5,6 +5,7 @@ namespace VehicleManager.Models
 {
 	public class Customer
 	{
+		[DisplayName("Id")]
 		public int CustomerId { get; set; }
 		[Required]
 		[MaxLength(40)]
@@ -23,6 +24,7 @@ namespace VehicleManager.Models
 		public string City { get; set; } = string.Empty;
 		[Required]
 		[Range(100000000, 999999999)]
+		[DisplayName("License Nr")]
         public int DriverLicenceNr { get; set; }
 
     }
