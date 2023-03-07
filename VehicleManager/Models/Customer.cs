@@ -9,11 +9,11 @@ namespace VehicleManager.Models
 		public int CustomerId { get; set; }
 		[Required]
 		[MaxLength(40)]
-		[DisplayName("First Name")]
+		[DisplayName("First name")]
 		public string FirstName { get; set; } = string.Empty;
 		[Required]
 		[MaxLength(40)]
-        [DisplayName("Last Name")]
+        [DisplayName("Last name")]
         public string LastName { get; set; } = string.Empty;
 		public string FullName => $"{FirstName} {LastName}";
 		[Required]
@@ -24,7 +24,7 @@ namespace VehicleManager.Models
 		public string City { get; set; } = string.Empty;
 		[Required]
 		[Range(100000000, 999999999)]
-		[DisplayName("License Nr")]
+		[DisplayName("License nr")]
         public int DriverLicenceNr { get; set; }
 
     }

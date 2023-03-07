@@ -9,10 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 ftco-animate">
-                <p>
-                    <a asp-action="Create">Create New</a>
-                </p>
-                <table id="customertable" class="display cell-border" style="width:100%">
+                <table id="customertable" class="display cell-border text-dark" style="width:100%">
                     <thead>
                         <tr>
                             <th>
@@ -91,25 +88,8 @@
     </div>
 </section>
 @section scripts {
-    <script>
-        //$(document).ready(function () {
-        //    var table = $('#customertable').DataTable();
+    <script class="form-control">
 
-
-        //    table.columns().every(function () {
-        //        var that = this;
-
-        //        $('input', this.header()).on('keyup change clear', function () {
-        //            if (that.search() !== this.value) {
-        //                that
-        //                    .search(this.value)
-        //                    .draw();
-        //            }
-        //        });
-        //    });
-            
-                
-        //});
         $(document).ready(function () {
             var table = $('#customertable').DataTable({
                 rowReorder: {
