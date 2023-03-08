@@ -18,5 +18,6 @@ namespace VehicleManager.ViewModels
         public double TotalPrice { get; set; }
         public string PlateNumber { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
+        public bool ReadyForPickUp { get; set; } = false;
     }
 }

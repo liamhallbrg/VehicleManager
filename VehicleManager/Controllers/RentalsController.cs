@@ -27,9 +27,21 @@ namespace VehicleManager.Controllers
 
 
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(List<int> readyForPickUp)
         {
-            
+            if (readyForPickUp != null && readyForPickUp.Any())
+            {
+                foreach (var rentalId in readyForPickUp)
+                {
+                    var rental = await rentalRepo.GetByIdAsync(rentalId);
+                    if (rental != null)
+                    {
+                        rental.ReadyForPickUp = true;
+                        await rentalRepo.UpdateAsync(rental);
+                    }
+                }
+            }
+
             var rentals = await rentalRepo.GetAllAsync();
             var rentalViewModels = new List<RentalViewModel>();
 
@@ -48,7 +60,8 @@ namespace VehicleManager.Controllers
                     TotalPrice = rental.TotalPrice,
                     PlateNumber = car.PlateNumber,
                     FullName = customer.FullName,
-                    CarId = car.CarId
+                    CarId = car.CarId,
+                    ReadyForPickUp= rental.ReadyForPickUp
                 };
                 rentalViewModels.Add(rentalViewModel);
             }
