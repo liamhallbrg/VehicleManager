@@ -11,6 +11,8 @@
                     <a asp-action="Create">Create New</a>
                 
                 <h2>This weeks rentals</h2>
+                <form method="post" action="@Url.Action("Index")">
+
 
                 <table class="table table-striped">
                     <thead>
@@ -18,6 +20,7 @@
                             <th>Pick Up Date</th>
                             <th>Plate Number</th>
                             <th>Full Name</th>
+                            <th>Ready for PickUp</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,15 +28,20 @@
                         {
                             @if(rental.PickUpDate >= DateTime.Now && rental.PickUpDate <= DateTime.Now.AddDays(7))
                             {
-                            <tr>
-                                <td>@Html.DisplayFor(m => rental.PickUpDate)</td>
-                                <td>@Html.DisplayFor(m => rental.PlateNumber)</td>
-                                <td>@Html.DisplayFor(m => rental.FullName)</td>
-                            </tr>
+                                <tr>
+                                    <td>@Html.DisplayFor(m => rental.PickUpDate)</td>
+                                    <td>@Html.DisplayFor(m => rental.PlateNumber)</td>
+                                    <td>@Html.DisplayFor(m => rental.FullName)</td>
+                                    <td>
+                                        <input type="checkbox" name="readyForPickUp" value="@rental.Id" @(rental.ReadyForPickUp ? "checked" : "")>
+                                    </td>
+                                </tr>
                             }
                         }
                     </tbody>
                     </table>
+                    <button type="submit">Save</button>
+                </form>
                 
                     <h2>All Bookings</h2>
 
@@ -85,14 +93,23 @@
 
 @section scripts {
     <script class="form-control">
-
         $(document).ready(function () {
+            $.fn.dataTable.ext.classes.sPageButton = 'button primary_button';
             var table = $('#rentaltable').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(2)'
                 },
+                language: {
+                    oPaginate: {
+                        sNext: '>',
+                        sPrevious: '<',
+                        sFirst: '<<',
+                        sLast: '>>'
+                    }
+                },
                 responsive: true
             });
+            $('#rentaltable_paginate ul:first').removeClass('pagination');
         });
 
     </script>

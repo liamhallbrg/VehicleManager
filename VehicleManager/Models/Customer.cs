@@ -23,7 +23,7 @@ namespace VehicleManager.Models
 		[Required]
 		public string City { get; set; } = string.Empty;
 		[Required]
-		[Range(100000000, 999999999)]
+		[Range(100000000, 999999999,ErrorMessage ="You must enter a valid 9 digit drivers licence")]
 		[DisplayName("License nr")]
         public int DriverLicenceNr { get; set; }
 
