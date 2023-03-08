@@ -73,3 +73,7 @@
     padding: 4px;
     color: black !important;
 }
+
+.ready-for-pickup {
+    background-color: #8ac282;
+}
