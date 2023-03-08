@@ -13,26 +13,27 @@
                 <h2>This weeks rentals</h2>
                 <form method="post" action="@Url.Action("Index")">
 
+                <div class="table-responsive">
 
-                <table class="table border border-grey">
-                    <thead>
+                <table class="table table-hover table-bordered table-sm">
+                            <thead class="table-borderless">
                         <tr>
-                            <th>Pick Up Date</th>
-                            <th>Plate Number</th>
-                            <th>Full Name</th>
-                            <th>Ready for Pick Up</th>
+                                    <th class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">Pick Up Date</th>
+                                    <th class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">Plate Number</th>
+                                    <th class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">Full Name</th>
+                                    <th class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">Ready for Pick Up</th>
                         </tr>
                     </thead>
-                    <tbody>
+                            <tbody>
                             @foreach (var rental in Model)
                             {
                                 @if (rental.PickUpDate >= DateTime.Now && rental.PickUpDate <= DateTime.Now.AddDays(7))
                                 {
                                     <tr class="@((rental.ReadyForPickUp) ? "ready-for-pickup" : "")">
-                                        <td>@Html.DisplayFor(m => rental.PickUpDate)</td>
-                                        <td>@Html.DisplayFor(m => rental.PlateNumber)</td>
-                                        <td>@Html.DisplayFor(m => rental.FullName)</td>
-                                        <td>
+                                            <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">@Html.DisplayFor(m => rental.PickUpDate)</td>
+                                            <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">@Html.DisplayFor(m => rental.PlateNumber)</td>
+                                            <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">@Html.DisplayFor(m => rental.FullName)</td>
+                                            <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">
                                             <input type="checkbox" name="readyForPickUp" value="@rental.Id" @(rental.ReadyForPickUp ? "checked" : "") @(rental.ReadyForPickUp ? "disabled" : "") data-rental-id="@rental.Id" />
                                         </td>
                                     </tr>
@@ -42,6 +43,7 @@
 
                     </tbody>
                     </table>
+                </div>
                     <button type="submit">Save</button>
                 </form>
                 <br />

@@ -82,3 +82,6 @@ span.price {
 table tr.ready-for-pickup {
     background-color: #a3d89c;
 }
+.table-hover tbody tr:hover {
+    background-color: #fcfcfc;
+}
