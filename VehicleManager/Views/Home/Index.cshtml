@@ -100,22 +100,33 @@
                         if (category.Cars.Count != 0)
                         {
                             <div class="item">
-                                <a asp-controller="VehicleCategories" asp-action="Details" asp-route-id="@category.VehicleCategoryId" class="py-2 ml-25-p">
-                                        <div class="car-wrap rounded ftco-animate">
-                                            <div class="img rounded d-flex align-items-end" style="background-image: url(@category.Cars[0].ImgUrl)"></div>
-                                            <div class="text">
-                                                <h2 class="mb-0">@category.Name</h2>
-                                                <div class="d-flex mb-3">
-                                                    <span class="cat">@category.Description</span>
-                                                    <p class="price ml-auto">@category.PricePerDay<span>kr/day</span></p>
-                                                </div>
-                                                <p class="d-flex mb-0 d-block">
-                                            
-                                                </p>
+
+                                <div class="ftco-animate py-2">
+                                    <div class="mx-auto card border-0 my-2 shadow-sm" style="width:20em">
+                                        <a asp-controller="VehicleCategories" asp-action="Details" asp-route-id="@category.VehicleCategoryId" class="stretched-link"></a>
+                                        <img src="@category.Cars[0].ImgUrl" class="card-img-top" style="object-fit:cover; height:12em;" />
+                                        <div class="card-body align-text-bottom">
+                                            <h5 class="card-title">@category.Name</h5>
+                                            <p class="text-primary">@category.PricePerDay<span class="price"> kr/day</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+@*                                <a asp-controller="VehicleCategories" asp-action="Details" asp-route-id="@category.VehicleCategoryId" class="py-2 ml-25-p">
+                                    <div class="car-wrap rounded ftco-animate">
+                                        <div class="img rounded d-flex align-items-end" style="background-image: url(@category.Cars[0].ImgUrl)"></div>
+                                        <div class="text">
+                                            <h2 class="mb-0">@category.Name</h2>
+                                            <div class="d-flex mb-3">
+                                                <span class="cat">@category.Description</span>
+                                                <p class="price ml-auto">@category.PricePerDay<span>kr/day</span></p>
                                             </div>
                                         </div>
-                                </a>
+                                    </div>
+                                </a>*@
                             </div>
+
+
                         }
                     }
                 </div>

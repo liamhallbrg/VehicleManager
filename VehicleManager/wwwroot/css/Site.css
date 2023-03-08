@@ -32,6 +32,10 @@
     -moz-appearance: none;
     appearance: none;
 }
+span.price {
+    color: #6c757d;
+    font-size: 0.8em;
+}
 
 .dataTables_paginate ul {
     padding: 0;
