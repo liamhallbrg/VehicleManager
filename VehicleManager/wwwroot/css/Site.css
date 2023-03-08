@@ -78,6 +78,7 @@ span.price {
     color: black !important;
 }
 
-.ready-for-pickup {
-    background-color: #8ac282;
+
+table tr.ready-for-pickup {
+    background-color: #a3d89c;
 }

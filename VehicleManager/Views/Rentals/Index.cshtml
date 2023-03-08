@@ -20,24 +20,26 @@
                             <th>Pick Up Date</th>
                             <th>Plate Number</th>
                             <th>Full Name</th>
-                            <th>Ready for PickUp</th>
+                            <th>Ready for Pick Up</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var rental in Model)
-                        {
-                            @if(rental.PickUpDate >= DateTime.Now && rental.PickUpDate <= DateTime.Now.AddDays(7))
+                            @foreach (var rental in Model)
                             {
-                                    <tr class="@((rental.ReadyForPickUp ? "ready-for-pickup" : ""))">
+                                @if (rental.PickUpDate >= DateTime.Now && rental.PickUpDate <= DateTime.Now.AddDays(7))
+                                {
+                                    <tr class="@((rental.ReadyForPickUp) ? "ready-for-pickup" : "")">
                                         <td>@Html.DisplayFor(m => rental.PickUpDate)</td>
                                         <td>@Html.DisplayFor(m => rental.PlateNumber)</td>
                                         <td>@Html.DisplayFor(m => rental.FullName)</td>
                                         <td>
-                                            <input type="checkbox" name="readyForPickUp" value="@rental.Id" @(rental.ReadyForPickUp ? "checked" : "")>
+                                            <input type="checkbox" name="readyForPickUp" value="@rental.Id" @(rental.ReadyForPickUp ? "checked" : "") @(rental.ReadyForPickUp ? "disabled" : "") data-rental-id="@rental.Id" />
                                         </td>
                                     </tr>
+                                }
                             }
-                        }
+
+
                     </tbody>
                     </table>
                     <button type="submit">Save</button>
