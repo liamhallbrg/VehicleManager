@@ -51,20 +51,20 @@
                 <ul class="navbar-nav ml-auto">
                 @if (isAdmin)
                     {
-                        <li class="nav-item active">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <li id="nav-home" class="nav-item">
+                            <a class="nav-link nav-highlight" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="VehicleCategories" asp-action="Index">Categories</a>
+                            <a class="nav-link nav-highlight" asp-area="" asp-controller="VehicleCategories" asp-action="Index">Categories</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
+                            <a class="nav-link nav-highlight" asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Rentals" asp-action="Index">Bookings</a>
+                            <a class="nav-link nav-highlight" asp-area="" asp-controller="Rentals" asp-action="Index">Bookings</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Cars" asp-action="Index">Cars</a>
+                            <a class="nav-link nav-highlight"  asp-area="" asp-controller="Cars" asp-action="Index">Cars</a>
                         </li>
                     }
                     <li class="nav-item dropdown">
@@ -184,6 +184,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
     <script src="/js/google-map.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/site.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
