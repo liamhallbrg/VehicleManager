@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace VehicleManager.Models
 {
@@ -10,6 +11,7 @@ namespace VehicleManager.Models
         [MaxLength(120)]
         public string Description { get; set; } = string.Empty;
         [Required]
+        [DisplayName("Price per day")]
         public double PricePerDay { get; set; }
         virtual public List<Car> Cars { get; set; } = new();
     }
