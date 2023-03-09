@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using VehicleManager.Data;
+using VehicleManager.Helpers;
 using VehicleManager.Models;
 using VehicleManager.ViewModels;
 
@@ -29,6 +30,10 @@ namespace VehicleManager.Controllers
 
         public async Task<IActionResult> Index(List<int> readyForPickUp)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (readyForPickUp != null && readyForPickUp.Any())
             {
                 foreach (var rentalId in readyForPickUp)
@@ -77,6 +82,10 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await rentalRepo.GetAllAsync() == null)
             {
                 return NotFound();
@@ -133,6 +142,10 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await rentalRepo.GetAllAsync() == null)
             {
                 return NotFound();
@@ -183,6 +196,10 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await rentalRepo.GetAllAsync() == null)
             {
                 return NotFound();

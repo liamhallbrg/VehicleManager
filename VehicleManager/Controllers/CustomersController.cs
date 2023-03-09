@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VehicleManager.Data;
+using VehicleManager.Helpers;
 using VehicleManager.Models;
 
 namespace VehicleManager.Controllers
@@ -22,7 +23,11 @@ namespace VehicleManager.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-              return await customerRepo.GetAllAsync() != null ? 
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
+            return await customerRepo.GetAllAsync() != null ? 
                           View(await customerRepo.GetAllAsync()) :
                           Problem("Entity set Customer is null.");
         }
@@ -30,6 +35,10 @@ namespace VehicleManager.Controllers
         // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await customerRepo.GetAllAsync() == null)
             {
                 return NotFound();
@@ -47,6 +56,10 @@ namespace VehicleManager.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             return View();
         }
 
@@ -68,6 +81,10 @@ namespace VehicleManager.Controllers
         // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await customerRepo.GetAllAsync() == null)
             {
                 return NotFound();
@@ -118,6 +135,10 @@ namespace VehicleManager.Controllers
         // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await customerRepo.GetAllAsync() == null)
             {
                 return NotFound();

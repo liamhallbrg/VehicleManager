@@ -26,6 +26,11 @@ namespace VehicleManager.Controllers
         //GET: Cars
         public async Task<IActionResult> Index()
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
+
             if (carRep == null)
             {
                 return Problem("Entity set 'carRep'  is null.");
@@ -36,6 +41,11 @@ namespace VehicleManager.Controllers
         // GET: Cars/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
+
             if (id == null || carRep == null)
             {
                 return NotFound();
@@ -54,12 +64,12 @@ namespace VehicleManager.Controllers
         // GET: Cars/Create
         public async Task<IActionResult> Create()
         {
-            if(Utilities.IsAdmin())
+            if (!Utilities.IsAdmin())
             {
-                ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
-                return View();
+                return Redirect("/");
             }
-            return Redirect("/");
+            ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
+            return View();
         }
 
         // POST: Cars/Create
@@ -81,6 +91,10 @@ namespace VehicleManager.Controllers
         // GET: Cars/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || carRep == null)
             {
                 return NotFound();
@@ -135,6 +149,10 @@ namespace VehicleManager.Controllers
         // GET: Cars/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || carRep == null)
             {
                 return NotFound();
