@@ -24,7 +24,7 @@ namespace VehicleManager.Models
 		[Required]
 		public string City { get; set; } = string.Empty;
         [Required]
-
+        [DisplayName("Driver license")]
         public int DriverLicenceNr { get; set; }
 
     }

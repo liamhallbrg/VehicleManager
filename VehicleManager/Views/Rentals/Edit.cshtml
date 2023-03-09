@@ -8,7 +8,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 ftco-animate">
-                <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span><span><a href="/Rentals">Rentals <i class="ion-ios-arrow-forward"></i></a></span> <span>Edit</span></p>
                 <h1>Edit</h1>
 
                 <h4>Rental</h4>
@@ -18,24 +17,26 @@
                         <form asp-action="Edit">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="RentalId" />
+                            <span asp-validation-for="RentalId" class="text-danger"></span>
                             <div class="form-group">
-                                <label asp-for="CarId" class="control-label"></label>
-                                <input asp-for="CarId" class="form-control" />
-                                <span asp-validation-for="CarId" class="text-danger"></span>
+                                <label asp-for="CarId" class="control-label">Car</label>
+                                <select asp-for="CarId" class="form-control" asp-items="ViewBag.Cars">
+                                    <option>Select a car</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CustomerId" class="control-label"></label>
-                                <input asp-for="CustomerId" class="form-control" />
+                                <input asp-for="CustomerId" class="form-control" readonly/>
                                 <span asp-validation-for="CustomerId" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="PickUpDate" class="control-label"></label>
-                                <input asp-for="PickUpDate" class="form-control" />
+                                <label asp-for="PickUpDate" for="PickUpDate" class="label">Pick-up date</label>
+                                <input asp-for="PickUpDate" name="PickUpDate" type="text" class="form-control" id="book_pick_date" placeholder="Select Date" autocomplete="off">
                                 <span asp-validation-for="PickUpDate" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="ReturnDate" class="control-label"></label>
-                                <input asp-for="ReturnDate" class="form-control" />
+                                <label asp-for="ReturnDate" for="ReturnDate" class="label">Drop-off date</label>
+                                <input asp-for="ReturnDate" name="ReturnDate" type="text" class="form-control" id="book_off_date" placeholder="Select Date" autocomplete="off" disabled>
                                 <span asp-validation-for="ReturnDate" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -44,8 +45,7 @@
                                 <span asp-validation-for="BookingMade" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="TotalPrice" class="control-label"></label>
-                                <input asp-for="TotalPrice" class="form-control" />
+                                <input type="hidden" asp-for="TotalPrice" class="form-control" />
                                 <span asp-validation-for="TotalPrice" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -61,8 +61,12 @@
             </div>
         </div>
     </div>
+
 </section>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

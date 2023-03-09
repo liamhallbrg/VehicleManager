@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using VehicleManager.Data;
@@ -189,6 +190,22 @@ namespace VehicleManager.Controllers
             {
                 return NotFound();
             }
+
+            var car = carRepo.GetByIdAsync(rental.CarId).Result;
+            if (car == null)
+            {
+                return Redirect("/Home");
+            }
+
+            var category = categoryRepo.GetByIdAsync(car.VehicleCategoryId).Result;
+            if (category == null)
+            {
+                return Redirect("/Home");
+            }
+
+            rental.TotalPrice = (rental.ReturnDate - rental.PickUpDate).TotalDays * category.PricePerDay;
+
+            ViewBag.Cars = new SelectList(await carRepo.GetAllAsync(), "CarId", "PlateNumber");
             return View(rental);
         }
 
