@@ -11,55 +11,57 @@
                 <p>
                     <a asp-action="Create">Create New</a>
                 </p>
-                <table id ="car-table" class="table table-striped text-center">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Brand)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Model)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Description)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.PlateNumber)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ImgUrl)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
+                <div class="table-responsive">
+                    <table id ="car-table" class="table table-striped table-hover text-center">
+                        <thead>
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Brand)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Model)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Description)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.PlateNumber)
-                                </td>
-                                <td>
-                                    <img src="@Html.DisplayFor(modelItem => item.ImgUrl)" style="height:100px;">
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.CarId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.CarId">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.CarId">Delete</a>
-                                </td>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Brand)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Model)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PlateNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ImgUrl)
+                                </th>
+                                <th></th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Brand)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Model)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PlateNumber)
+                                    </td>
+                                    <td>
+                                        <img src="@Html.DisplayFor(modelItem => item.ImgUrl)" style="height:100px;">
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.CarId">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.CarId">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.CarId">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
