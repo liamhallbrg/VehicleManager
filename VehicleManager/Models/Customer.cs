@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace VehicleManager.Models
 {
@@ -22,9 +23,8 @@ namespace VehicleManager.Models
 		public string Address { get; set; } = string.Empty;
 		[Required]
 		public string City { get; set; } = string.Empty;
-		[Required]
-		[Range(100000000, 999999999,ErrorMessage ="You must enter a valid 9 digit drivers licence")]
-		[DisplayName("License nr")]
+        [Required]
+
         public int DriverLicenceNr { get; set; }
 
     }

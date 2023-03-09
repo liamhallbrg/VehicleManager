@@ -32,7 +32,8 @@ namespace VehicleManager.ViewModels
         [Required]
         public string City { get; set; } = string.Empty;
         [Required]
-        [Range(100000000, 999999999)]
+        [DisplayName("Driver license")]
+        [RegularExpression("^[0-9]{9}$", ErrorMessage = "Driver license number must be 9 digits.")]
         public int DriverLicenceNr { get; set; }
 
         public string ImgUrl { get; set; } = "https://upload.wikimedia.org/wikipedia/commons/1/1d/Opel_Kadett_C_Coupe.jpg";
