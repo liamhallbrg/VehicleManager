@@ -104,9 +104,7 @@
                                 <div class="ftco-animate py-2">
                                     <div class="mx-auto card border-0 my-2 shadow-sm" style="width:20em">
                                         <a asp-controller="VehicleCategories" asp-action="Details" asp-route-id="@category.VehicleCategoryId" class="stretched-link"></a>
-                                        <div class="bg-image hover-zoom">
-                                            <img src="@category.Cars[0].ImgUrl" class="card-img-top" style="object-fit:cover; height:12em;" />
-                                        </div>
+                                        <img src="@category.Cars[0].ImgUrl" class="card-img-top" style="object-fit:cover; height:12em;" />
                                         <div class="card-body align-text-bottom">
                                             <h5 class="card-title">@category.Name</h5>
                                             <p class="text-primary">@category.PricePerDay<span class="price"> kr/day</span></p>

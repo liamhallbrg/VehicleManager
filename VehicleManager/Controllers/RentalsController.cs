@@ -112,15 +112,22 @@ namespace VehicleManager.Controllers
             {
                 return Redirect("/Home");
             }
-            var category = categoryRepo.GetByIdAsync(car.VehicleCategoryId).Result;
 
-            RentalCustomerVM rentalCustomerVM = new();
-            rentalCustomerVM.PickUpDate = pickupDate;
-            rentalCustomerVM.ReturnDate = returnDate;
-            rentalCustomerVM.TotalPrice = (returnDate - pickupDate).TotalDays * category.PricePerDay;
-            rentalCustomerVM.ImgUrl = car.ImgUrl;
-            rentalCustomerVM.Brand = car.Brand;
-            rentalCustomerVM.Name = category.Name;
+            var category = categoryRepo.GetByIdAsync(car.VehicleCategoryId).Result;
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            RentalCustomerVM rentalCustomerVM = new()
+            {
+                PickUpDate = pickupDate,
+                ReturnDate = returnDate,
+                TotalPrice = (returnDate - pickupDate).TotalDays * category.PricePerDay,
+                ImgUrl = car.ImgUrl,
+                Brand = car.Brand,
+                Name = category.Name
+            };
 
             return View(rentalCustomerVM);
         }
