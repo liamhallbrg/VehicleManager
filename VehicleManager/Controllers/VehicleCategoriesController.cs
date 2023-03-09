@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VehicleManager.Data;
+using VehicleManager.Helpers;
 using VehicleManager.Models;
 
 namespace VehicleManager.Controllers
@@ -24,7 +25,11 @@ namespace VehicleManager.Controllers
         // GET: VehicleCategories
         public async Task<IActionResult> Index()
         {
-              return await categoryRepo.GetAllAsync() != null ? 
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
+            return await categoryRepo.GetAllAsync() != null ? 
                           View(await categoryRepo.GetAllAsync()) :
                           Problem("Vehicle Categories is null.");
         }
@@ -32,6 +37,10 @@ namespace VehicleManager.Controllers
         // GET: VehicleCategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await categoryRepo.GetAllAsync() == null)
             {
                 return NotFound();
@@ -51,6 +60,10 @@ namespace VehicleManager.Controllers
         // GET: VehicleCategories/Create
         public IActionResult Create()
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             return View();
         }
 
@@ -72,6 +85,10 @@ namespace VehicleManager.Controllers
         // GET: VehicleCategories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await categoryRepo.GetAllAsync() == null)
             {
                 return NotFound();
@@ -122,6 +139,10 @@ namespace VehicleManager.Controllers
         // GET: VehicleCategories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await categoryRepo.GetAllAsync() == null)
             {
                 return NotFound();

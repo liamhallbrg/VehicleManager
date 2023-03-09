@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 using VehicleManager.Data;
+using VehicleManager.Helpers;
 using VehicleManager.Models;
 using VehicleManager.ViewModels;
 
@@ -24,8 +25,10 @@ namespace VehicleManager.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IndexVM indexVM = new();
-            indexVM.VehicleCategories = await categoryRepository.GetAllAsync();
+            IndexVM indexVM = new()
+            {
+                VehicleCategories = await categoryRepository.GetAllAsync()
+            };
             foreach (var category in indexVM.VehicleCategories)
             {
                 category.Cars = await carRepository.GetAllAsync(s => s.VehicleCategoryId == category.VehicleCategoryId);

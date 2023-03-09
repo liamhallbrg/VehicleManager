@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using VehicleManager.Data;
+using VehicleManager.Helpers;
 using VehicleManager.Models;
 using VehicleManager.ViewModels;
 
@@ -29,6 +30,10 @@ namespace VehicleManager.Controllers
 
         public async Task<IActionResult> Index(List<int> readyForPickUp)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (readyForPickUp != null && readyForPickUp.Any())
             {
                 foreach (var rentalId in readyForPickUp)
@@ -47,10 +52,13 @@ namespace VehicleManager.Controllers
 
             foreach (var rental in rentals)
             {
-
                 var car = await carRepo.GetByIdAsync(rental.CarId);
                 var customer = await customerRepo.GetByIdAsync(rental.CustomerId);
 
+                if (car is null || customer is null)
+                {
+                    return NotFound();
+                }
                 var rentalViewModel = new RentalViewModel
                 {
                     Id = rental.RentalId,
@@ -77,6 +85,10 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await rentalRepo.GetAllAsync() == null)
             {
                 return NotFound();
@@ -100,15 +112,22 @@ namespace VehicleManager.Controllers
             {
                 return Redirect("/Home");
             }
-            var category = categoryRepo.GetByIdAsync(car.VehicleCategoryId).Result;
 
-            RentalCustomerVM rentalCustomerVM = new();
-            rentalCustomerVM.PickUpDate = pickupDate;
-            rentalCustomerVM.ReturnDate = returnDate;
-            rentalCustomerVM.TotalPrice = (returnDate - pickupDate).TotalDays * category.PricePerDay;
-            rentalCustomerVM.ImgUrl = car.ImgUrl;
-            rentalCustomerVM.Brand = car.Brand;
-            rentalCustomerVM.Name = category.Name;
+            var category = categoryRepo.GetByIdAsync(car.VehicleCategoryId).Result;
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            RentalCustomerVM rentalCustomerVM = new()
+            {
+                PickUpDate = pickupDate,
+                ReturnDate = returnDate,
+                TotalPrice = (returnDate - pickupDate).TotalDays * category.PricePerDay,
+                ImgUrl = car.ImgUrl,
+                Brand = car.Brand,
+                Name = category.Name
+            };
 
             return View(rentalCustomerVM);
         }
@@ -155,6 +174,10 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await rentalRepo.GetAllAsync() == null)
             {
                 return NotFound();
@@ -205,6 +228,10 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+                        if (!Utilities.IsAdmin())
+            {
+                return Redirect("/");
+            }
             if (id == null || await rentalRepo.GetAllAsync() == null)
             {
                 return NotFound();
