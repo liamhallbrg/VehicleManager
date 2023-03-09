@@ -52,10 +52,13 @@ namespace VehicleManager.Controllers
 
             foreach (var rental in rentals)
             {
-
                 var car = await carRepo.GetByIdAsync(rental.CarId);
                 var customer = await customerRepo.GetByIdAsync(rental.CustomerId);
 
+                if (car is null || customer is null)
+                {
+                    return NotFound();
+                }
                 var rentalViewModel = new RentalViewModel
                 {
                     Id = rental.RentalId,
@@ -196,7 +199,7 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (!Utilities.IsAdmin())
+                        if (!Utilities.IsAdmin())
             {
                 return Redirect("/");
             }
