@@ -42,6 +42,7 @@ namespace VehicleManager.ViewModels
         public string Name { get; set; } = string.Empty;
         [Required]
         public string Brand { get; set; } = string.Empty;
+        public string Model { get; set; } = string.Empty;
         public double PricePerDay { get; set; }
     }
 }

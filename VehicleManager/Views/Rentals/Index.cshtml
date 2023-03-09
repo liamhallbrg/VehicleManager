@@ -8,71 +8,66 @@
         <div class="row">
             <div class="col-md-12 ftco-animate">
                 <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span><span>Rentals</span></p>
-                
                 <h2>This weeks bookings</h2>
                 <form method="post" action="@Url.Action("Index")">
-
-                <div class="table-responsive">
-
-                <table class="table table-hover table-sm" style="border-collapse:collapse;">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-sm" style="border-collapse:collapse;">
                             <thead style="border:none;">
-                        <tr>
+                                <tr>
                                     <th class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem; font-weight: bold; border: none;">Pick Up Date</th>
                                     <th class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem; font-weight: bold; border: none;">Plate Number</th>
                                     <th class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem; font-weight: bold; border: none;">Full Name</th>
                                     <th class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem; font-weight: bold; border: none;">Ready for Pick Up</th>
-                        </tr>
-                    </thead>
+                                </tr>
+                            </thead>
                             <tbody class="table-bordered">
-                            @foreach (var rental in Model)
-                            {
-                                @if (rental.PickUpDate >= DateTime.Now && rental.PickUpDate <= DateTime.Now.AddDays(7))
+                                @foreach (var rental in Model)
                                 {
-                                    <tr class="@((rental.ReadyForPickUp) ? "ready-for-pickup" : "")">
-                                            <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">@Html.DisplayFor(m => rental.PickUpDate)</td>
-                                            <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">@Html.DisplayFor(m => rental.PlateNumber)</td>
-                                            <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">@Html.DisplayFor(m => rental.FullName)</td>
-                                            <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">
-                                            <input type="checkbox" name="readyForPickUp" value="@rental.Id" @(rental.ReadyForPickUp ? "checked" : "") @(rental.ReadyForPickUp ? "disabled" : "") data-rental-id="@rental.Id" />
-                                        </td>
-                                    </tr>
+                                    @if (rental.PickUpDate >= DateTime.Now && rental.PickUpDate <= DateTime.Now.AddDays(7))
+                                    {
+                                        <tr class="@((rental.ReadyForPickUp) ? "ready-for-pickup" : "")">
+                                                <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">@Html.DisplayFor(m => rental.PickUpDate)</td>
+                                                <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">@Html.DisplayFor(m => rental.PlateNumber)</td>
+                                                <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">@Html.DisplayFor(m => rental.FullName)</td>
+                                                <td class="text-center text-nowrap" style="padding:0.5rem 0.7rem; margin: 0.4rem;">
+                                                <input type="checkbox" name="readyForPickUp" value="@rental.Id" @(rental.ReadyForPickUp ? "checked" : "") @(rental.ReadyForPickUp ? "disabled" : "") data-rental-id="@rental.Id" />
+                                            </td>
+                                        </tr>
+                                    }
                                 }
-                            }
-
-
-                    </tbody>
-                    </table>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
                     <button type="submit">Save</button>
                 </form>
                 <br />
                 <br />
 
-                    <h2>All bookings</h2>
+                <h2>All bookings</h2>
                 <table id="rentaltable" class="display cell-border text-dark" style="width:100%">
-                        <thead>
+                    <thead>
+                        <tr>
+                            <th>Rental ID</th>
+                            <th>Car ID</th>
+                            <th>Full Name</th>
+                            <th>Pick Up Date</th>
+                            <th>Return Date</th>
+                            <th>Booking Made</th>
+                            <th>Total Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var rental in Model)
+                        {
                             <tr>
-                                <th>Rental ID</th>
-                                <th>Car ID</th>
-                                <th>Full Name</th>
-                                <th>Pick Up Date</th>
-                                <th>Return Date</th>
-                                <th>Booking Made</th>
-                                <th>Total Price</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var rental in Model)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(r => rental.Id)</td>
-                                    <td>@Html.DisplayFor(r => rental.CarId)</td>
-                                    <td>@Html.DisplayFor(r => rental.FullName)</td>
-                                    <td>@Html.DisplayFor(r => rental.PickUpDate)</td>
-                                    <td>@Html.DisplayFor(r => rental.ReturnDate)</td>
-                                    <td>@Html.DisplayFor(r => rental.BookingMade)</td>
-                                    <td>$@Html.DisplayFor(r => rental.TotalPrice)</td>
+                                <td>@Html.DisplayFor(r => rental.Id)</td>
+                                <td>@Html.DisplayFor(r => rental.CarId)</td>
+                                <td>@Html.DisplayFor(r => rental.FullName)</td>
+                                <td>@Html.DisplayFor(r => rental.PickUpDate)</td>
+                                <td>@Html.DisplayFor(r => rental.ReturnDate)</td>
+                                <td>@Html.DisplayFor(r => rental.BookingMade)</td>
+                                <td>€@Html.DisplayFor(r => rental.TotalPrice)</td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@rental.Id">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil text-black-50" viewBox="0 0 16 16" style="margin:3px;">
@@ -85,14 +80,13 @@
                                         </svg>
                                     </a>
                                 </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
-    
+    </div>
 </section>
 
 @section scripts {

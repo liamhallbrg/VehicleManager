@@ -14,10 +14,10 @@
                             <div class="row justify-content-center">
                                 <div class="col-md-12">
                                     <div class="car-details">
-                                        <img class="rounded" src="@Model.ImgUrl" style="max-width: 100%" />
+                                        <img class="rounded shadow-sm" src="@Model.ImgUrl" style="max-width: 100%" />
                                         <div class="text text-center">
-                                            <span class="subheading">@Model.Brand</span>
-                                            <h2>@Model.Name</h2>
+                                            <span class="subheading">@Model.Name</span>
+                                            <h2>@Model.Brand @Model.Model</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -208,11 +208,11 @@
                             <span asp-validation-for="DriverLicenceNr" class="text-danger"></span>
                         </div>
                         <div class="alert alert-info">
-                            Rental Period: @Html.DisplayFor(p => Model.PickUpDate) - @Html.DisplayFor(r => Model.ReturnDate)
+                             Period: @Html.DisplayFor(p => Model.PickUpDate) - @Html.DisplayFor(r => Model.ReturnDate)
                         </div>
                         <div class="d-flex mb-3 alert alert-success">
                             <span>Total Price:</span>
-                            <p class="price ml-auto mb-0">@Html.DisplayFor(m=>Model.TotalPrice)<span>kr</span></p>
+                            <p class="price ml-auto mb-0">€@Html.DisplayFor(m=>Model.TotalPrice)</p>
                         </div>
 
                         <div class="form-group">
