@@ -44,18 +44,16 @@
                 <h4>Example car from category</h4>
                 @if (Model.Cars.Count != 0)
                 {
-                    <div class="col-md-4">
-                        <div class="car-wrap rounded ftco-animate">
-                            <div class="img rounded d-flex align-item-end" style="background-image: url(@Model.Cars[0].ImgUrl);"></div>
-                            <div class="text">
-                                <h2 class="mb-0"><a href="#">@Model.Cars[0].Brand</a> <a>@Model.Cars[0].Model</a></h2>
-                                <div class="d-flex mb-3">
-                                    <span class="cat">@Model.Cars[0].Description</span>
-                                    <p class="price ml-auto">$@Model.PricePerDay <span>/day</span></p>
-                                </div>
+                    <div class="col-md-4 ftco-animate">
+                        <div class="card my-3 border-0 shadow-sm">
+                            <a href="#" class="stretched-link"></a>
+                            <img src="@Model.Cars[0].ImgUrl" class="card-img-top" alt="@Model.Cars[0].Brand @Model.Cars[0].Model" style="object-fit:cover; height:12em;" />
+                            <div class="card-body align-text-bottom">
+                                <h5 class="card-title">@Model.Cars[0].Brand @Model.Cars[0].Model</h5>
+                                <p class="text-primary">€@Model.PricePerDay<span class="price"> /day - @Model.Name</span></p>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 }
 
             </div>
