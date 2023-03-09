@@ -85,14 +85,23 @@
 </section>
 @section scripts {
     <script type="text/javascript">
-
         $(document).ready(function () {
+            $.fn.dataTable.ext.classes.sPageButton = 'button primary_button';
             var table = $('#customertable').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(2)'
                 },
+                language: {
+                    oPaginate: {
+                        sNext: '>',
+                        sPrevious: '<',
+                        sFirst: '<<',
+                        sLast: '>>'
+                    }
+                },
                 responsive: true
             });
+            $('#rentaltable_paginate ul:first').removeClass('pagination');
         });
 
     </script>
