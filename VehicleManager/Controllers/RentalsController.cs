@@ -126,6 +126,7 @@ namespace VehicleManager.Controllers
                 TotalPrice = (returnDate - pickupDate).TotalDays * category.PricePerDay,
                 ImgUrl = car.ImgUrl,
                 Brand = car.Brand,
+                Model = car.Model,
                 Name = category.Name
             };
 
