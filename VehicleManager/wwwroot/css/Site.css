@@ -85,3 +85,7 @@ table tr.ready-for-pickup {
 .table-hover tbody tr:hover {
     background-color: #fcfcfc;
 }
+
+.card.no-hov:hover {
+    transform: none;
+}

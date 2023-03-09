@@ -125,7 +125,29 @@ namespace VehicleManager.Controllers
                 await customerRepo.CreateAsync(customer);
                 rental.CustomerId = customer.CustomerId;
                 await rentalRepo.CreateAsync(rental);
-                return RedirectToAction(nameof(Index));
+                Car car = await carRepo.GetByIdAsync(rental.CarId) ?? new();
+
+                RentalCustomerVM customerVM = new()
+                {
+                    Address = customer.Address,
+                    BookingMade = rental.BookingMade,
+                    DriverLicenceNr = customer.DriverLicenceNr,
+                    Brand = car.Brand,
+                    CarId = car.CarId,
+                    City = customer.City,
+                    CustomerId = customer.CustomerId,
+                    Email = customer.Email,
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName,
+                    PickUpDate = rental.PickUpDate,
+                    ReturnDate = rental.ReturnDate,
+                    TotalPrice = rental.TotalPrice,
+                    ImgUrl = car.ImgUrl,
+                    PlateNumber = car.PlateNumber,
+                    RentalId = rental.RentalId
+                };
+
+                return RedirectToAction(nameof(Confirmation), customerVM);
             }
             return View(rental);
         }
@@ -219,6 +241,14 @@ namespace VehicleManager.Controllers
         private bool RentalExists(int id)
         {
             return rentalRepo.GetByIdAsync(id) is not null;
+        }
+
+        //GET Confirmation
+        public ActionResult Confirmation(RentalCustomerVM customerVM)
+        {
+            return customerVM != null ?
+                        View(customerVM) :
+                        Problem("The booking is null.");
         }
     }
 }

@@ -14,6 +14,7 @@ namespace VehicleManager.ViewModels
         public DateTime ReturnDate { get; set; }
         public DateTime BookingMade { get; set; } = DateTime.Now;
         public double TotalPrice { get; set; }
+        public string PlateNumber { get; set; } = string.Empty;
 
 
         [Required]
