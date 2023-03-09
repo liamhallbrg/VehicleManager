@@ -8,11 +8,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 ftco-animate">
-                <h2>Categories</h2>
+                <div class="row">
+                    <h2 class="col-md-auto my-auto">Categories</h2>
+                    <p class="col-md-auto my-auto"><a asp-action="Create">+Add New</a></p>
+                </div>
                 <br />
-                <p>
-                    <a asp-action="Create">Create New</a>
-                </p>
                 <div class="table-responsive">
                     <table id="category-table" class="display cell-border text-dark" style="width:100%">
                         <thead>
@@ -40,7 +40,7 @@
                                         @Html.DisplayFor(modelItem => item.Description)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.PricePerDay)
+                                        €@Html.DisplayFor(modelItem => item.PricePerDay)
                                     </td>
                                     <td>
                                         <a asp-action="Edit" asp-route-id="@item.VehicleCategoryId">
@@ -62,6 +62,8 @@
             </div>
         </div>
     </div>
+    <br/>
+    <br/>
 </section>
 @section scripts {
     <script type="text/javascript">
