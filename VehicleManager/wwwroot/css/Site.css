@@ -89,3 +89,6 @@ table tr.ready-for-pickup {
 .card.no-hov:hover {
     transform: none;
 }
+.navbar-nav > li.dropdown:hover > .dropdown-menu {
+    display: block;
+}
