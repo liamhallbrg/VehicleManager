@@ -12,7 +12,7 @@
                     <a asp-action="Create">Create New</a>
                 </p>
                 <div class="table-responsive">
-                    <table id="car-table" class="table table-hover text-center display cell-border text-dark w-100">
+                    <table id="car-table" class="display cell-border text-dark" style="width:100%">
                         <thead>
                             <tr>
                                 <th>
@@ -73,3 +73,32 @@
         </div>
     </div>
 </section>
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.fn.dataTable.ext.classes.sPageButton = 'button primary_button';
+            var table = $('#car-table').DataTable({
+                rowReorder: {
+                    selector: 'td:nth-child(2)'
+                },
+                language: {
+                    oPaginate: {
+                        sNext: '>',
+                        sPrevious: '<',
+                        sFirst: '<<',
+                        sLast: '>>'
+                    }
+                },
+                responsive: true
+            });
+            $('#rentaltable_paginate ul:first').removeClass('pagination');
+        });
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.3.2/js/dataTables.rowReorder.min.js"></script>
+
+        }
