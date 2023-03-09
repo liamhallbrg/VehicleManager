@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using VehicleManager.Data;
@@ -189,6 +190,8 @@ namespace VehicleManager.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Cars = new SelectList(await carRepo.GetAllAsync(), "CarId", "PlateNumber");
             return View(rental);
         }
 
