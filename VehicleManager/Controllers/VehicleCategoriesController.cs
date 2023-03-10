@@ -37,10 +37,6 @@ namespace VehicleManager.Controllers
         // GET: VehicleCategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
             if (id == null || await categoryRepo.GetAllAsync() == null)
             {
                 return NotFound();
