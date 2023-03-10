@@ -189,13 +189,9 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script>
         $(document).ready(function () {
-            // detect touch screen devices
             if ('ontouchstart' in document.documentElement) {
-                // add touchstart event listener to the dropdown toggles
                 $('.dropdown-toggle').on('touchstart', function (e) {
-                    // prevent default behavior of button click
                     e.preventDefault();
-                    // toggle the dropdown manually
                     $(this).siblings('.dropdown-menu').toggle();
                 });
             }
