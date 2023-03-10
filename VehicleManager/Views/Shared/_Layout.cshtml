@@ -43,7 +43,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light scrolled awake" id="ftco-navbar">
         <div class="container">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Five<span>Two</span></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="true" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
             </button>
 
@@ -187,6 +187,22 @@
     <script src="/js/site.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        $(document).ready(function () {
+            // detect touch screen devices
+            if ('ontouchstart' in document.documentElement) {
+                // add touchstart event listener to the dropdown toggles
+                $('.dropdown-toggle').on('touchstart', function (e) {
+                    // prevent default behavior of button click
+                    e.preventDefault();
+                    // toggle the dropdown manually
+                    $(this).siblings('.dropdown-menu').toggle();
+                });
+            }
+        });
+
+
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
