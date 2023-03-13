@@ -44,6 +44,7 @@ namespace VehicleManager.ViewModels
         [Required]
         public string Brand { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public double PricePerDay { get; set; }
     }
 }
