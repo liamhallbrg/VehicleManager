@@ -106,15 +106,16 @@ namespace VehicleManager.Controllers
         }
 
         // GET: Rentals/Create
-        public IActionResult Create(int carId, DateTime pickupDate, DateTime returnDate)
+        public async Task<IActionResult> Create(int carId, DateTime pickupDate, DateTime returnDate)
         {
-            var car = carRepo.GetByIdAsync(carId).Result;
+            var car = await carRepo.GetByIdAsync(carId);
             if (car == null)
             {
                 return Redirect("/Home");
             }
 
-            var category = categoryRepo.GetByIdAsync(car.VehicleCategoryId).Result;
+            var category = await categoryRepo.GetByIdAsync(car.VehicleCategoryId);
+            
             if (category == null)
             {
                 return NotFound();
@@ -141,7 +142,8 @@ namespace VehicleManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RentalId,CarId,CustomerId,PickUpDate,ReturnDate,BookingMade,TotalPrice")] Rental rental, Customer customer)
         {
-            if (ModelState.IsValid)
+
+            if (ModelState.IsValid )
             {
                 await customerRepo.CreateAsync(customer);
                 rental.CustomerId = customer.CustomerId;
@@ -191,13 +193,13 @@ namespace VehicleManager.Controllers
                 return NotFound();
             }
 
-            var car = carRepo.GetByIdAsync(rental.CarId).Result;
+            var car = await carRepo.GetByIdAsync(rental.CarId);
             if (car == null)
             {
                 return Redirect("/Home");
             }
 
-            var category = categoryRepo.GetByIdAsync(car.VehicleCategoryId).Result;
+            var category = await categoryRepo.GetByIdAsync(car.VehicleCategoryId);
             if (category == null)
             {
                 return Redirect("/Home");
@@ -221,7 +223,12 @@ namespace VehicleManager.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var allRentals = await rentalRepo.GetAllAsync();
+            if (allRentals != null && allRentals.Where(r => r.CarId == rental.CarId && (rental.PickUpDate < r.ReturnDate && r.PickUpDate < rental.ReturnDate)).Any())
+            {
+                ModelState.AddModelError(nameof(rental.PickUpDate), "Already booked during this time period!");
+            }
+            else if (ModelState.IsValid)
             {
                 try
                 {
@@ -240,6 +247,7 @@ namespace VehicleManager.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Cars = new SelectList(await carRepo.GetAllAsync(), "CarId", "PlateNumber");
             return View(rental);
         }
 
