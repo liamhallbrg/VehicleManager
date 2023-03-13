@@ -223,11 +223,19 @@ namespace VehicleManager.Controllers
                 return NotFound();
             }
 
-            var allRentals = await rentalRepo.GetAllAsync();
-            if (allRentals != null && allRentals.Where(r => r.CarId == rental.CarId && (rental.PickUpDate < r.ReturnDate && r.PickUpDate < rental.ReturnDate)).Any())
+            var thisCarsRentals = await rentalRepo.GetAllAsync(r => r.CarId == rental.CarId);
+            var currentRental = thisCarsRentals.Where(r => r.RentalId == rental.RentalId).FirstOrDefault();
+            if (currentRental == null) 
+            {
+                return NotFound();
+            }
+            thisCarsRentals.Remove(currentRental);
+
+            if (thisCarsRentals.Where(r => r.ReturnDate > rental.PickUpDate && r.PickUpDate < rental.ReturnDate).Any())
             {
                 ModelState.AddModelError(nameof(rental.PickUpDate), "Already booked during this time period!");
             }
+
             else if (ModelState.IsValid)
             {
                 try
