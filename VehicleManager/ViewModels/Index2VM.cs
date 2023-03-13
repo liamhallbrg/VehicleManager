@@ -12,6 +12,7 @@ namespace VehicleManager.ViewModels
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ReturnDate { get; set; }
         public VehicleCategory Category { get; set; } = new();
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public double TotalPrice { get; set; }
         public int Selected { get; set; }
     }

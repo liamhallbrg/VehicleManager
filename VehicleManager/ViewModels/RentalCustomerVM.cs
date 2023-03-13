@@ -13,6 +13,7 @@ namespace VehicleManager.ViewModels
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ReturnDate { get; set; }
         public DateTime BookingMade { get; set; } = DateTime.Now;
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public double TotalPrice { get; set; }
         public string PlateNumber { get; set; } = string.Empty;
 
@@ -43,6 +44,7 @@ namespace VehicleManager.ViewModels
         [Required]
         public string Brand { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public double PricePerDay { get; set; }
     }
 }

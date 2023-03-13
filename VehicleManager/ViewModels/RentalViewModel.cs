@@ -15,6 +15,7 @@ namespace VehicleManager.ViewModels
         public DateTime ReturnDate { get; set; }
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime BookingMade { get; set; }
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public double TotalPrice { get; set; }
         public string PlateNumber { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
