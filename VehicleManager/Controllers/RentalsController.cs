@@ -246,7 +246,7 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-                        if (!Utilities.IsAdmin())
+            if (!Utilities.IsAdmin())
             {
                 return Redirect("/");
             }
