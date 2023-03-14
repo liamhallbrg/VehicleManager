@@ -40,6 +40,7 @@ namespace VehicleManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(int vehicleCategoryId, DateTime pickupDate, DateTime returnDate)
         {
+
             var category = await categoryRepository.GetByIdAsync(vehicleCategoryId);
                 if (category == null) return Redirect("/"); //TODO: Felhantering om kategori ID inte finns
             var allRentals = await rentalRepository.GetAllAsync();
