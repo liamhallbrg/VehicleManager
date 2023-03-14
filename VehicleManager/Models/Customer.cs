@@ -25,6 +25,7 @@ namespace VehicleManager.Models
 		public string City { get; set; } = string.Empty;
         [Required]
         [DisplayName("Driver license")]
+        [RegularExpression("^[0-9]{9}$", ErrorMessage = "Driver license number must be 9 digits.")]
         public int DriverLicenceNr { get; set; }
 
     }

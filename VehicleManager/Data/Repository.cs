@@ -35,7 +35,7 @@ namespace VehicleManager.Data
 
         public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter)
         {
-            return await context.Set<T>().Where(filter).ToListAsync();
+            return await context.Set<T>().AsNoTracking().Where(filter).ToListAsync();
         }
 
         public async Task<T?> GetByIdAsync(int? id)
