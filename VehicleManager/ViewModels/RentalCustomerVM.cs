@@ -20,10 +20,11 @@ namespace VehicleManager.ViewModels
 
         [Required]
         [MaxLength(40)]
-        [DisplayName("Förnamn")]
+        [DisplayName("First name")]
         public string FirstName { get; set; } = string.Empty;
         [Required]
         [MaxLength(40)]
+        [DisplayName("Last name")]
         public string LastName { get; set; } = string.Empty;
         public string FullName => $"{FirstName} {LastName}";
         [Required]
@@ -35,7 +36,7 @@ namespace VehicleManager.ViewModels
         [Required]
         [DisplayName("Driver license")]
         [RegularExpression("^[0-9]{9}$", ErrorMessage = "Driver license number must be 9 digits.")]
-        public int DriverLicenceNr { get; set; }
+        public int DriverLicenceNr { get; set; } = 999999999;
 
         public string ImgUrl { get; set; } = "https://upload.wikimedia.org/wikipedia/commons/1/1d/Opel_Kadett_C_Coupe.jpg";
         
