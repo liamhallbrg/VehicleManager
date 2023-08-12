@@ -1,50 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using VehicleManager.Data;
-using VehicleManager.Helpers;
 using VehicleManager.Models;
 
 namespace VehicleManager.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CustomersController : Controller
     {
-        private readonly IRepository<Customer> customerRepo;
+        private readonly HttpClient client;
 
-        public CustomersController(IRepository<Customer> customerRepo)
+        public CustomersController(HttpClient httpClient)
         {
-            this.customerRepo = customerRepo;
+            client = httpClient;
+            client.BaseAddress = new Uri("https://localhost:7127/");
+            client.DefaultRequestHeaders.Clear();
+        }
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            string? jwtToken = context.HttpContext.Request.Cookies["jwtToken"];
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+            base.OnActionExecuting(context);
         }
 
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            if (!Utilities.IsAdmin())
+            var customers = await client.GetFromJsonAsync<List<Customer>>("api/customers");
+
+            if (customers == null)
             {
-                return Redirect("/");
+                return Problem("Entity set 'customers' is null.");
             }
-            return await customerRepo.GetAllAsync() != null ? 
-                          View(await customerRepo.GetAllAsync()) :
-                          Problem("Entity set Customer is null.");
+
+            return View(customers);
         }
 
         // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
-            if (id == null || await customerRepo.GetAllAsync() == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await customerRepo.GetByIdAsync(id);
+            var customer = await client.GetFromJsonAsync<Customer>($"api/customers/{id}");
             if (customer == null)
             {
                 return NotFound();
@@ -56,10 +63,6 @@ namespace VehicleManager.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
             return View();
         }
 
@@ -68,29 +71,32 @@ namespace VehicleManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,Email,Address,City,DriverLicenceNr")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,Address,City,DriverLicenceNr")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                await customerRepo.CreateAsync(customer);
-                return RedirectToAction(nameof(Index));
+                var response = await client.PostAsJsonAsync("api/customers", customer);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            ModelState.AddModelError(string.Empty, "Server error, please try again later.");
             return View(customer);
+
+
         }
 
         // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
-            if (id == null || await customerRepo.GetAllAsync() == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await customerRepo.GetByIdAsync(id);
+            var customer = await client.GetFromJsonAsync<Customer>($"api/customers/{id}");
             if (customer == null)
             {
                 return NotFound();
@@ -99,52 +105,39 @@ namespace VehicleManager.Controllers
         }
 
         // POST: Customers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // To ftect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,Email,Address,City,DriverLicenceNr")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,Address,City,DriverLicenceNr")] Customer customer)
         {
-            if (id != customer.CustomerId)
+            if (id != customer.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
+                var response = await client.PutAsJsonAsync($"api/customers/{id}", customer);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    await customerRepo.UpdateAsync(customer);
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.CustomerId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
             }
+            ModelState.AddModelError(string.Empty, "Server error, please try again later.");
             return View(customer);
         }
 
         // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
-            if (id == null || await customerRepo.GetAllAsync() == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await customerRepo.GetByIdAsync(id);
+            var customer = await client.GetFromJsonAsync<Customer>($"api/customers/{id}");
             if (customer == null)
             {
                 return NotFound();
@@ -158,21 +151,18 @@ namespace VehicleManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (await customerRepo.GetAllAsync() == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Customer'  is null.");
-            }
-            var customer = await customerRepo.GetByIdAsync(id);
+            var customer = await client.GetFromJsonAsync<Customer>($"api/customers/{id}");
             if (customer != null)
             {
-                await customerRepo.DeleteAsync(customer);
-            }
-            return RedirectToAction(nameof(Index));
-        }
+                var response = await client.DeleteAsync($"api/customers/{id}");
 
-        private bool CustomerExists(int id)
-        {
-            return customerRepo.GetByIdAsync(id) is not null;
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            ModelState.AddModelError(string.Empty, "Server error, please try again later.");
+            return View(customer);
         }
     }
 }

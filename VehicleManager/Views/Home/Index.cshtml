@@ -27,7 +27,7 @@
                             <h2>Make your trip</h2>
                             <div class="form-group">
                                 <label for="" class="label">Vehicle Category</label>
-                                <select id="vehicleCategory" name="vehicleCategoryId" class="form-control" style="background-color: #1089ff !important;" asp-items="@(new SelectList(Model.VehicleCategories, nameof(VehicleCategory.VehicleCategoryId), nameof(VehicleCategory.Name)))">
+                                <select id="vehicleCategory" name="vehicleCategoryId" class="form-control" style="background-color: #1089ff !important;" asp-items="@(new SelectList(Model.VehicleCategories, nameof(VehicleCategory.Id), nameof(VehicleCategory.Name)))">
                                     <option value="">Select a category</option>
                                 </select>
                             </div>
@@ -102,7 +102,7 @@
 
                                 <div class="ftco-animate py-2">
                                     <div class="mx-auto card border-0 my-2 shadow-sm" style="width:20em">
-                                        <a asp-controller="VehicleCategories" asp-action="Details" asp-route-id="@category.VehicleCategoryId" class="stretched-link"></a>
+                                        <a asp-controller="VehicleCategories" asp-action="Details" asp-route-id="@category.Id" class="stretched-link"></a>
                                         <img src="@category.Cars[0].ImgUrl" class="card-img-top" style="object-fit:cover; height:12em;" />
                                         <div class="card-body align-text-bottom">
                                             <h5 class="card-title">@category.Name</h5>

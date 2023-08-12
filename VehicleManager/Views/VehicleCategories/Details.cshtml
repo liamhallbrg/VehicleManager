@@ -36,7 +36,7 @@
                 @if (HttpContextAccessor?.HttpContext?.Request.Cookies["Role"] == "Admin")
                 {
                     <div>
-                        <a asp-action="Edit" asp-route-id="@Model?.VehicleCategoryId">Edit</a> |
+                        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
                         <a asp-action="Index">Back to List</a>
                     </div>
                 }

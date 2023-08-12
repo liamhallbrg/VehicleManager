@@ -4,10 +4,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace VehicleManager.Models
 {
-	public class Customer
+	public class Customer : BaseEntity
 	{
-		[DisplayName("Id")]
-		public int CustomerId { get; set; }
 		[Required]
 		[MaxLength(40)]
 		[DisplayName("First name")]

@@ -1,57 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using VehicleManager.Data;
-using VehicleManager.Helpers;
 using VehicleManager.Models;
 using VehicleManager.ViewModels;
 
 namespace VehicleManager.Controllers
 {
+    [Authorize(Roles = "Admin,Member")]
     public class CarsController : Controller
     {
-        private readonly IRepository<Car> carRep;
-        private readonly IRepository<VehicleCategory> categoryRep;
+        private readonly HttpClient client;
 
-        public CarsController(IRepository<Car> carRep, IRepository<VehicleCategory> categoryRep)
+        public CarsController(HttpClient httpClient)
         {
-            this.carRep = carRep;
-            this.categoryRep = categoryRep;
+            client = httpClient;
+            client.BaseAddress = new Uri("https://localhost:7127/");
+            client.DefaultRequestHeaders.Clear();
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            string? jwtToken = context.HttpContext.Request.Cookies["jwtToken"];
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+            base.OnActionExecuting(context);
         }
 
         //GET: Cars
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
+            var cars = await client.GetFromJsonAsync<List<Car>>("api/cars");
 
-            if (carRep == null)
+            if (cars == null)
             {
                 return Problem("Entity set 'carRep'  is null.");
-            }  
-            return View(await carRep.GetAllAsync());
+            }
+            
+            return View(cars);
         }
 
         // GET: Cars/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
 
-            if (id == null || carRep == null)
+            if (id == null)
             {
                 return NotFound();
             }
-
-            var car = await carRep.GetByIdAsync(id);
+            var car = await client.GetFromJsonAsync<Car>($"api/cars/{id}");
 
             if (car == null)
             {
@@ -62,13 +65,10 @@ namespace VehicleManager.Controllers
         }
 
         // GET: Cars/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
-            ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
+            ViewBag.VehicleCategory = new SelectList(await client.GetFromJsonAsync<List<VehicleCategory>>("api/vehicleCategories"), "Id", "Name");
             return View();
         }
 
@@ -77,37 +77,39 @@ namespace VehicleManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CarId,VehicleCategoryId,Brand,Model,Description,PlateNumber,ImgUrl")] Car car)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create([Bind("Id,VehicleCategoryId,Brand,Model,Description,PlateNumber,ImgUrl")] Car car)
         {
             if (ModelState.IsValid)
             {
-                await carRep.CreateAsync(car);
-                return RedirectToAction(nameof(Index));
+                var response = await client.PostAsJsonAsync("api/cars", car);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
+            ViewBag.VehicleCategory = new SelectList(await client.GetFromJsonAsync<List<VehicleCategory>>($"api/vehicleCategories"), "Id", "Name");
             return View(car);
         }
 
         // GET: Cars/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
-            if (id == null || carRep == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var car = await carRep.GetByIdAsync(id);
+            var car = await client.GetFromJsonAsync<Car>($"api/cars/{id}");
 
             if (car == null)
             {
                 return NotFound();
             }
 
-            ViewBag.VehicleCategory = new SelectList(await categoryRep.GetAllAsync(), "VehicleCategoryId", "Name");
+            ViewBag.VehicleCategory = new SelectList(await client.GetFromJsonAsync<List<VehicleCategory>>($"api/vehicleCategories/"), "Id", "Name");
 
             return View(car);
         }
@@ -117,48 +119,37 @@ namespace VehicleManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CarId,VehicleCategoryId,Brand,Model,Description,PlateNumber,ImgUrl")] Car car)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,VehicleCategoryId,Brand,Model,Description,PlateNumber,ImgUrl")] Car car)
         {
-            if (id != car.CarId)
+            if (id != car.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
+                var response = await client.PutAsJsonAsync($"api/cars/{id}", car);
+                if (response.IsSuccessStatusCode)
                 {
-                    await carRep.UpdateAsync(car);
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CarExists(car.CarId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
             }
+            ModelState.AddModelError(string.Empty, "Server error, please try again later.");
+            ViewBag.VehicleCategory = new SelectList(await client.GetFromJsonAsync<List<VehicleCategory>>($"api/vehicleCategories/"), "Id", "Name");
             return View(car);
         }
 
         // GET: Cars/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
-            if (id == null || carRep == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var car = await carRep.GetByIdAsync(id);
+            var car = await client.GetFromJsonAsync<Car>($"api/cars/{id}");
             if (car == null)
             {
                 return NotFound();
@@ -170,24 +161,27 @@ namespace VehicleManager.Controllers
         // POST: Cars/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (carRep == null)
+            var car = await client.GetFromJsonAsync<Car>($"api/cars/{id}");
+            if (car is null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Cars'  is null.");
-            }
-            var car = await carRep.GetByIdAsync(id);
-            if (car != null)
-            {
-                await carRep.DeleteAsync(car);
+                return NotFound();
             }
 
-            return RedirectToAction(nameof(Index));
+            var response = await client.DeleteAsync($"api/cars/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(car);
         }
 
         private bool CarExists(int id)
         {
-            return carRep.GetByIdAsync(id) != null;
+            return client.GetFromJsonAsync<Car>($"api/cars/{id}") != null;
         }
     }
 }

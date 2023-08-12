@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VehicleManager.Models
 {
-	public class Rental
+	public class Rental : BaseEntity
 	{
-        public int RentalId { get; set; }
         public int CarId { get; set; }
         [DisplayName("Customer id")]
         public int CustomerId { get; set; }

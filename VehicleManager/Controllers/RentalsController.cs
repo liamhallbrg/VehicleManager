@@ -1,60 +1,61 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using VehicleManager.Data;
-using VehicleManager.Helpers;
+using System.Linq.Expressions;
+using System.Net.Http.Headers;
 using VehicleManager.Models;
 using VehicleManager.ViewModels;
 
 namespace VehicleManager.Controllers
 {
+    [Authorize(Roles = "Admin,Member")]
     public class RentalsController : Controller
     {
-        private readonly IRepository<Rental> rentalRepo;
-        private readonly IRepository<Customer> customerRepo;
-        private readonly IRepository<Car> carRepo;
-        private readonly IRepository<VehicleCategory> categoryRepo;
+        private readonly HttpClient client;
+        private readonly IMapper mapper;
 
-        public RentalsController(IRepository<Rental> rentalRepo, IRepository<Customer> customerRepo, IRepository<Car> carRepo, IRepository<VehicleCategory> categoryRepo)
+        public RentalsController(HttpClient httpClient,IMapper mapper)
         {
-
-            this.rentalRepo = rentalRepo;
-            this.customerRepo = customerRepo;
-            this.carRepo = carRepo;
-            this.categoryRepo = categoryRepo;
+            client = httpClient;
+            client.BaseAddress = new Uri("https://localhost:7127/");
+            client.DefaultRequestHeaders.Clear();
+            this.mapper = mapper;
+        }
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            string? jwtToken = context.HttpContext.Request.Cookies["jwtToken"];
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+            base.OnActionExecuting(context);
         }
 
         // GET: Rentals
-
-
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(List<int> readyForPickUp)
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
             if (readyForPickUp != null && readyForPickUp.Any())
             {
                 foreach (var rentalId in readyForPickUp)
                 {
-                    var rental = await rentalRepo.GetByIdAsync(rentalId);
+                    var rental = await client.GetFromJsonAsync<Rental>($"api/rentals/{rentalId}");
                     if (rental != null)
                     {
                         rental.ReadyForPickUp = true;
-                        await rentalRepo.UpdateAsync(rental);
+                        var response = await client.PutAsJsonAsync($"api/rentals/{rentalId}", rental);
                     }
                 }
             }
 
-            var rentals = await rentalRepo.GetAllAsync();
+            var rentals = await client.GetFromJsonAsync<List<Rental>>("api/rentals");
             var rentalViewModels = new List<RentalViewModel>();
 
             foreach (var rental in rentals)
             {
-                var car = await carRepo.GetByIdAsync(rental.CarId);
-                var customer = await customerRepo.GetByIdAsync(rental.CustomerId);
+                var car = await client.GetFromJsonAsync<Car>($"api/cars/{rental.CarId}");
+                var customer = await client.GetFromJsonAsync<Customer>($"api/customers/{rental.CustomerId}");
 
                 if (car is null || customer is null)
                 {
@@ -62,40 +63,34 @@ namespace VehicleManager.Controllers
                 }
                 var rentalViewModel = new RentalViewModel
                 {
-                    Id = rental.RentalId,
+                    Id = rental.Id,
                     PickUpDate = rental.PickUpDate,
                     ReturnDate = rental.ReturnDate,
                     BookingMade = rental.BookingMade,
                     TotalPrice = rental.TotalPrice,
                     PlateNumber = car.PlateNumber,
                     FullName = customer.FullName,
-                    CarId = car.CarId,
+                    CarId = car.Id,
                     ReadyForPickUp= rental.ReadyForPickUp
                 };
                 rentalViewModels.Add(rentalViewModel);
             }
 
-            //ViewBag.Rentals = await rentalRepo.GetAllAsync();
-
-
-            return await rentalRepo.GetAllAsync() != null ?
+            return await client.GetFromJsonAsync<List<Rental>>("api/rentals") != null ?
                         View(rentalViewModels) :
                         Problem("Rental is null.");
         }
 
         // GET: Rentals/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
-            if (id == null || await rentalRepo.GetAllAsync() == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var rental = await rentalRepo.GetByIdAsync(id);
+            var rental = await client.GetFromJsonAsync<Rental>($"api/rentals/{id}");
 
             if (rental == null)
             {
@@ -108,13 +103,13 @@ namespace VehicleManager.Controllers
         // GET: Rentals/Create
         public async Task<IActionResult> Create(int carId, DateTime pickupDate, DateTime returnDate)
         {
-            var car = await carRepo.GetByIdAsync(carId);
+            var car = await client.GetFromJsonAsync<Car>($"api/cars/{carId}");
             if (car == null)
             {
                 return Redirect("/Home");
             }
 
-            var category = await categoryRepo.GetByIdAsync(car.VehicleCategoryId);
+            var category = await client.GetFromJsonAsync<VehicleCategory>($"api/vehicleCategories/{car.VehicleCategoryId}");
             
             if (category == null)
             {
@@ -140,66 +135,84 @@ namespace VehicleManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RentalId,CarId,CustomerId,PickUpDate,ReturnDate,BookingMade,TotalPrice")] Rental rental, Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,CarId,CustomerId,PickUpDate,ReturnDate,BookingMade,TotalPrice")] Rental rental, Customer customer)
         {
+            var car = await client.GetFromJsonAsync<Car>($"api/cars/{rental.CarId}") ?? new();
 
-            if (ModelState.IsValid )
+            RentalCustomerVM customerVM = mapper.Map<RentalCustomerVM>(car);
+            customerVM = mapper.Map(rental,customerVM);
+            customerVM = mapper.Map(customer,customerVM);
+
+            //RentalCustomerVM customerVM = new()
+            //{
+            //    Address = customer.Address,
+            //    BookingMade = rental.BookingMade,
+            //    DriverLicenceNr = customer.DriverLicenceNr,
+            //    Brand = car.Brand,
+            //    CarId = car.Id,
+            //    City = customer.City,
+            //    Email = customer.Email,
+            //    FirstName = customer.FirstName,
+            //    LastName = customer.LastName,
+            //    PickUpDate = rental.PickUpDate,
+            //    ReturnDate = rental.ReturnDate,
+            //    TotalPrice = rental.TotalPrice,
+            //    ImgUrl = car.ImgUrl,
+            //    PlateNumber = car.PlateNumber,
+            //};
+
+            if (ModelState.IsValid)
             {
-                await customerRepo.CreateAsync(customer);
-                rental.CustomerId = customer.CustomerId;
-                await rentalRepo.CreateAsync(rental);
-                Car car = await carRepo.GetByIdAsync(rental.CarId) ?? new();
+                var customerResponse = await client.PostAsJsonAsync("api/customers", customer);
+                var customerString = await customerResponse.Content.ReadAsStringAsync();
+                var customerDeserialized = JsonConvert.DeserializeObject<Customer>(customerString);
 
-                RentalCustomerVM customerVM = new()
+                if (customerDeserialized is null)
+                { return NotFound(); }
+
+                rental.CustomerId = customerDeserialized.Id;
+                customerVM.CustomerId = customerDeserialized.Id;
+
+                var rentalResponse = await client.PostAsJsonAsync("api/rentals", rental);
+                var rentalString = await rentalResponse.Content.ReadAsStringAsync();
+                var rentalDeserialized = JsonConvert.DeserializeObject<Rental>(rentalString);
+
+                if (rentalDeserialized is null)
+                { return NotFound(); }
+
+                customerVM.RentalId = rentalDeserialized.Id;
+
+                if (rentalResponse.IsSuccessStatusCode && customerResponse.IsSuccessStatusCode)
                 {
-                    Address = customer.Address,
-                    BookingMade = rental.BookingMade,
-                    DriverLicenceNr = customer.DriverLicenceNr,
-                    Brand = car.Brand,
-                    CarId = car.CarId,
-                    City = customer.City,
-                    CustomerId = customer.CustomerId,
-                    Email = customer.Email,
-                    FirstName = customer.FirstName,
-                    LastName = customer.LastName,
-                    PickUpDate = rental.PickUpDate,
-                    ReturnDate = rental.ReturnDate,
-                    TotalPrice = rental.TotalPrice,
-                    ImgUrl = car.ImgUrl,
-                    PlateNumber = car.PlateNumber,
-                    RentalId = rental.RentalId
-                };
-
-                return RedirectToAction(nameof(Confirmation), customerVM);
+                    return RedirectToAction(nameof(Confirmation), customerVM);
+                }
             }
-            return View(rental);
+            ModelState.AddModelError(string.Empty, "Server error, please try again later.");
+            return View(customerVM);
         }
 
         // GET: Rentals/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
-            if (id == null || await rentalRepo.GetAllAsync() == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var rental = await rentalRepo.GetByIdAsync(id);
+            var rental = await client.GetFromJsonAsync<Rental>($"api/rentals/{id}");
             if (rental == null)
             {
                 return NotFound();
             }
 
-            var car = await carRepo.GetByIdAsync(rental.CarId);
+            var car = await client.GetFromJsonAsync<Car>($"api/cars/{rental.CarId}");
             if (car == null)
             {
                 return Redirect("/Home");
             }
 
-            var category = await categoryRepo.GetByIdAsync(car.VehicleCategoryId);
+            var category = await client.GetFromJsonAsync<VehicleCategory>($"api/vehicleCategories/{car.VehicleCategoryId}");
             if (category == null)
             {
                 return Redirect("/Home");
@@ -207,7 +220,7 @@ namespace VehicleManager.Controllers
 
             rental.TotalPrice = (rental.ReturnDate - rental.PickUpDate).TotalDays * category.PricePerDay;
 
-            ViewBag.Cars = new SelectList(await carRepo.GetAllAsync(), "CarId", "PlateNumber");
+            ViewBag.Cars = new SelectList(await client.GetFromJsonAsync<List<Car>>("api/cars"), "Id", "PlateNumber");
             return View(rental);
         }
 
@@ -216,15 +229,17 @@ namespace VehicleManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("RentalId,CarId,CustomerId,PickUpDate,ReturnDate,BookingMade,TotalPrice")] Rental rental)
         {
-            if (id != rental.RentalId)
+            if (id != rental.Id)
             {
                 return NotFound();
             }
+            Expression<Func<Car, bool>> filter = r => r.Id == rental.Id;
 
-            var thisCarsRentals = await rentalRepo.GetAllAsync(r => r.CarId == rental.CarId);
-            var currentRental = thisCarsRentals.Where(r => r.RentalId == rental.RentalId).FirstOrDefault();
+            var thisCarsRentals = await client.GetFromJsonAsync<List<Rental>>($"api/rentals/{filter}");
+            var currentRental = thisCarsRentals.Where(r => r.Id == rental.Id).FirstOrDefault();
             if (currentRental == null) 
             {
                 return NotFound();
@@ -238,40 +253,27 @@ namespace VehicleManager.Controllers
 
             else if (ModelState.IsValid)
             {
-                try
+                var response = await client.PutAsJsonAsync($"api/rentals/{id}", rental);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    await rentalRepo.UpdateAsync(rental);
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RentalExists(rental.RentalId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
             }
-            ViewBag.Cars = new SelectList(await carRepo.GetAllAsync(), "CarId", "PlateNumber");
+            ViewBag.Cars = new SelectList(await client.GetFromJsonAsync<List<Car>>("api/cars"), "Id", "PlateNumber");
             return View(rental);
         }
 
         // GET: Rentals/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (!Utilities.IsAdmin())
-            {
-                return Redirect("/");
-            }
-            if (id == null || await rentalRepo.GetAllAsync() == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var rental = await rentalRepo.GetByIdAsync(id);
+            var rental = await client.GetFromJsonAsync<Rental>($"api/rentals/{id}");
 
             if (rental == null)
             {
@@ -284,25 +286,23 @@ namespace VehicleManager.Controllers
         // POST: Rentals/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (await rentalRepo.GetAllAsync() == null)
-            {
-                return Problem("Rental is null.");
-            }
-            var rental = await rentalRepo.GetByIdAsync(id);
+            var rental = await client.GetFromJsonAsync<Rental>($"api/rentals/{id}");
             if (rental != null)
             {
-                await rentalRepo.DeleteAsync(rental);
+                var response = await client.DeleteAsync($"api/rentals/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
-
-            return RedirectToAction(nameof(Index));
+            ModelState.AddModelError(string.Empty, "Server error, please try again later.");
+            return View(rental);
         }
 
-        private bool RentalExists(int id)
-        {
-            return rentalRepo.GetByIdAsync(id) is not null;
-        }
 
         //GET Confirmation
         public ActionResult Confirmation(RentalCustomerVM customerVM)

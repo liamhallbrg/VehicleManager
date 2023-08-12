@@ -13,7 +13,7 @@
                             <h2>Make your trip</h2>
                             <div class="form-group">
                                 <label for="" class="label">Vehicle Category</label>
-                                <select name="vehicleCategoryId" class="form-select" style="background-color: #1089ff !important;" asp-items="@(new SelectList(Model.VehicleCategories, nameof(VehicleCategory.VehicleCategoryId), nameof(VehicleCategory.Name), Model.Selected))">
+                                <select name="vehicleCategoryId" class="form-select" style="background-color: #1089ff !important;" asp-items="@(new SelectList(Model.VehicleCategories, nameof(VehicleCategory.Id), nameof(VehicleCategory.Name), Model.Selected))">
                                 </select>
                             </div>
                             <div class="d-flex">
@@ -86,7 +86,7 @@
 
                         <div class="col-md-4 ftco-animate">
                             <div class="card my-3 border-0 shadow-sm">
-                                <a href="/Book/@car.CarId/@Model.PickupDate/@Model.ReturnDate" class="stretched-link"></a>
+                                <a href="/Book/@car.Id/@Model.PickupDate/@Model.ReturnDate" class="stretched-link"></a>
                                 <img src="@car.ImgUrl" class="card-img-top" alt="@car.Brand @car.Model" style="object-fit:cover; height:12em;" />
                                 <div class="card-body align-text-bottom">
                                     <h5 class="card-title">@car.Brand @car.Model</h5>

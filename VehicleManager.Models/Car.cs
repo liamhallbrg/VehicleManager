@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VehicleManager.Models
 {
-    public class Car
+    public class Car : BaseEntity
     {
-        public int CarId { get; set; }
         public int VehicleCategoryId { get; set; }
         [Required]
         public string Brand { get; set; } = string.Empty;

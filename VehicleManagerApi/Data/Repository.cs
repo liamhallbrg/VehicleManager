@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace VehicleManager.Data
+namespace VehicleManagerApi.Data
 {
     public class Repository<T> : IRepository<T> where T : class
     {

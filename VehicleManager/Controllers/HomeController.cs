@@ -1,37 +1,57 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using VehicleManager.Data;
-using VehicleManager.Helpers;
+using System.Net.Http.Headers;
+using System.Web;
 using VehicleManager.Models;
 using VehicleManager.ViewModels;
 
 namespace VehicleManager.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IRepository<Car> carRepository;
-        private readonly IRepository<VehicleCategory> categoryRepository;
-        private readonly IRepository<Rental> rentalRepository;
+        private readonly HttpClient client;
+        private readonly RoleManager<IdentityRole> role;
+        private readonly UserManager<IdentityUser> user;
 
-        public HomeController(ILogger<HomeController> logger, IRepository<Car> carRepository, IRepository<VehicleCategory> categoryRepository, IRepository<Rental> rentalRepository)
+        public HomeController(ILogger<HomeController> logger, HttpClient httpClient, RoleManager<IdentityRole> role,UserManager<IdentityUser> user)
         {
             _logger = logger;
-            this.carRepository = carRepository;
-            this.categoryRepository = categoryRepository;
-            this.rentalRepository = rentalRepository;
+            client = httpClient;
+            client.BaseAddress = new Uri("https://localhost:7127/");
+            client.DefaultRequestHeaders.Clear();
+            this.role = role;
+            this.user = user;
+        }
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            string? jwtToken = context.HttpContext.Request.Cookies["jwtToken"];
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+            base.OnActionExecuting(context);
         }
 
         public async Task<IActionResult> Index()
         {
+            var categories = await client.GetFromJsonAsync<List<VehicleCategory>>("api/vehicleCategories");
+            if (categories is null)
+            {
+                return NotFound();
+            }
+
             IndexVM indexVM = new()
             {
-                VehicleCategories = await categoryRepository.GetAllAsync()
+                VehicleCategories = categories
             };
             foreach (var category in indexVM.VehicleCategories)
             {
-                category.Cars = await carRepository.GetAllAsync(s => s.VehicleCategoryId == category.VehicleCategoryId);
+                string filter = $"f => f.VehicleCategoryId == {category.Id}";
+                category.Cars = await client.GetFromJsonAsync<List<Car>>($"api/cars?filter={filter}");
             }
             return View(indexVM);
         }
@@ -41,23 +61,23 @@ namespace VehicleManager.Controllers
         public async Task<IActionResult> Index(int vehicleCategoryId, DateTime pickupDate, DateTime returnDate)
         {
 
-            var category = await categoryRepository.GetByIdAsync(vehicleCategoryId);
+            var category = await client.GetFromJsonAsync<VehicleCategory>($"api/vehicleCategories/{vehicleCategoryId}");
                 if (category == null) return Redirect("/"); //TODO: Felhantering om kategori ID inte finns
-            var allRentals = await rentalRepository.GetAllAsync();
+            var allRentals = await client.GetFromJsonAsync<List<Rental>>($"api/rentals");
             Index2VM index2VM = new();
-            Expression<Func<Car, bool>> filter = s => s.VehicleCategoryId == vehicleCategoryId;
+            var filter = $"f => f.VehicleCategoryId == {vehicleCategoryId}";
 
             index2VM.Category = category;
             index2VM.Selected = vehicleCategoryId;
-            index2VM.VehicleCategories = await categoryRepository.GetAllAsync();
-            index2VM.Cars = await carRepository.GetAllAsync(filter);
+            index2VM.VehicleCategories = await client.GetFromJsonAsync<List<VehicleCategory>>($"api/vehicleCategories");
+            index2VM.Cars = await client.GetFromJsonAsync<List<Car>>($"api/cars?filter={filter}");
             index2VM.PickupDate = pickupDate;
             index2VM.ReturnDate = returnDate;
             index2VM.TotalPrice = (returnDate - pickupDate).TotalDays * category.PricePerDay;
 
             foreach (var car in index2VM.Cars.ToList())
             {
-                if(allRentals.Where(r => r.CarId == car.CarId && (pickupDate < r.ReturnDate && r.PickUpDate < returnDate)).Any())
+                if(allRentals.Where(r => r.CarId == car.Id && (pickupDate < r.ReturnDate && r.PickUpDate < returnDate)).Any())
                 {
                     index2VM.Cars.Remove(car);
                 }
@@ -69,26 +89,6 @@ namespace VehicleManager.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public IActionResult SetUser()
-        {
-            if (Request.Cookies.ContainsKey("Role"))
-            {
-                Response.Cookies.Delete("Role");
-            }
-
-            return Redirect(Request.Headers["Referer"].ToString());
-        }
-
-        public IActionResult SetAdmin()
-        {
-            if (!Request.Cookies.ContainsKey("Role"))
-            {
-                Response.Cookies.Append("Role", "Admin");
-            }
-
-            return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 }
